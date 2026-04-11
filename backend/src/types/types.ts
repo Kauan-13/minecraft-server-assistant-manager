@@ -1,17 +1,19 @@
 import type { Player } from "gamedig";
 
+type ServerStatus = "OFFLINE" | "STARTING" | "ONLINE" | "STOPPING";
+
 interface Server {
     id: number;
     name: string;
     path: string;
     port: number;
+    status: ServerStatus;
+    players: Player[];
 }
 
-interface ServerCache {
-    id: number;
-    name: string;
-    online: boolean, 
-    players: Player[]
+interface User {
+    name: string,
+    ips: string[]
 }
 
-export type { Server, ServerCache }
+export type { Server, ServerStatus, User }

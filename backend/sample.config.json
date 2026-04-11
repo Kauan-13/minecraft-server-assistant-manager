@@ -1,0 +1,32 @@
+{
+    "maxConcurrentServers": 1,
+    "servers": [
+        {
+            "id": 1,
+            "name": "Mundo 1",
+            "path": "C:/MinecraftServer/",
+            "port": 25565,
+            "rconPort": 25575
+        }
+    ],
+    "security": {
+        "enableIpWhitelist": true,
+        "requireToken": true,
+        "allowedUsers": [
+            {
+                "name": "Usuario 1",
+                "ips": [
+                    "::ffff:127.0.0.1",
+                    "::1",
+                    "127.0.0.1"
+                ]
+            },
+            {
+                "name": "Usuario 2",
+                "ips": [
+                    "::ffff:111.111.111.111"
+                ]
+            }
+        ]
+    }
+}

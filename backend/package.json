@@ -20,8 +20,10 @@
   },
   "homepage": "https://github.com/Kauan-13/minecraft-server-api#readme",
   "dependencies": {
+    "dotenv": "^17.4.1",
     "express": "^5.2.1",
-    "gamedig": "^5.3.2"
+    "gamedig": "^5.3.2",
+    "rcon-client": "^4.2.5"
   },
   "devDependencies": {
     "@types/express": "^5.0.6",
