@@ -2,6 +2,7 @@ import style from "./style.module.css";
 import useServer from '../../hooks/useServer';
 import ServerCard from "../ServerCard";
 import AuthorizationPopup from "../AuthorizationPopup";
+import { useEffect, useState } from "react";
 
 const CardSection = () => {
     const {
@@ -14,6 +15,16 @@ const CardSection = () => {
         fetchStop,
         errorStop
     } = useServer();
+
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
+
+    console.log(isPopupOpen);
+
+    useEffect(() => {
+        if (errorStart?.status == 401 || errorStop?.status == 401) {
+            setIsPopupOpen(true);
+        }
+    }, [errorStart, errorStop])
 
     return (
         <>
@@ -33,11 +44,9 @@ const CardSection = () => {
             </section>
             <p>{loadingStatus || loadingStart && "carregando"}</p>
             <p>{errorStatus || errorStart?.message || errorStop?.message}</p>
-            { errorStart?.status == 401 || errorStop?.status == 401 ?
-                <AuthorizationPopup/>
-                : null
+            { isPopupOpen &&
+                <AuthorizationPopup onClose={() => setIsPopupOpen(false)}/>
             }
-            
         </>
     )
 }

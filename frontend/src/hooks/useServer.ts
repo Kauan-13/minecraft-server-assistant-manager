@@ -38,7 +38,7 @@ const useServer = ( intervalMs = 5000) => {
         } catch (err: any) {
             console.log(err);
 
-            const message = err.response?.data?.message || "Erro ao conectar com o servidor";
+            const message = err.response?.data?.error || "Erro ao conectar com o servidor";
             setErrorStart({
                 message: message,
                 status: err.response?.status || 500
