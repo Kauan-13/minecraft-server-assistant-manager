@@ -9,11 +9,11 @@ const useServer = ( intervalMs = 5000) => {
     
     const [serverStartResponse, setServerStartResponse] = useState<{message: string}>(null);
     const [loadingStart, setLoadingStart] = useState(false);
-    const [errorStart, setErrorStart] = useState<{message: string, status: number} | null>(null);
+    const [errorStart, setErrorStart] = useState<{message: string, status: number, serverName: string} | null>(null);
 
     const [serverStopResponse, setServerStopResponse] = useState<{message: string}>(null);
     const [loadingStop, setLoadingStop] = useState(false);
-    const [errorStop, setErrorStop] = useState<{message: string, status: number} | null>(null);
+    const [errorStop, setErrorStop] = useState<{message: string, status: number, serverName: string} | null>(null);
 
     const fetchStatus = useCallback(async () => {
         try {
@@ -29,7 +29,7 @@ const useServer = ( intervalMs = 5000) => {
         }
     }, []);
 
-    const fetchStart = async (serverId: number) => {
+    const fetchStart = async (serverId: number, serverName: string) => {
         setLoadingStart(true);
         try {
             const response = await urlStart(serverId);
@@ -38,10 +38,11 @@ const useServer = ( intervalMs = 5000) => {
         } catch (err: any) {
             console.log(err);
 
-            const message = err.response?.data?.error || "Erro ao conectar com o servidor";
+            const message = err.response?.data?.message || err.response?.data?.error || "Erro ao conectar com o servidor";
             setErrorStart({
                 message: message,
-                status: err.response?.status || 500
+                status: err.response?.status || 500,
+                serverName: serverName
             });
             setServerStartResponse(null);
             
@@ -53,7 +54,7 @@ const useServer = ( intervalMs = 5000) => {
         }
     }
 
-    const fetchStop = async (serverId: number) => {
+    const fetchStop = async (serverId: number, serverName: string) => {
         setLoadingStop(true);
         try {
             const response = await urlStop(serverId);
@@ -63,7 +64,8 @@ const useServer = ( intervalMs = 5000) => {
             const message = err.response?.data?.message || "Erro ao conectar com o servidor";
             setErrorStop({
                 message: message,
-                status: err.response?.status || 500
+                status: err.response?.status || 500,
+                serverName: serverName
             });
             setServerStopResponse(null); 
 

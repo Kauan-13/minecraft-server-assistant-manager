@@ -5,11 +5,12 @@ interface Props {
     serverName: string,
     serverStatus: ServerStatus,
     serverPlayers: Player[],
+    error?: string,
     onClickStart: () => {},
     onClickStop: () => {}
 }
 
-const ServerCard = ({serverName, serverStatus, serverPlayers, onClickStart, onClickStop}: Props) => {
+const ServerCard = ({serverName, serverStatus, serverPlayers, onClickStart, onClickStop, error}: Props) => {
     return (
         <div className={style.serverCard}>
             <div className={style.serverCardBackground}>
@@ -23,6 +24,9 @@ const ServerCard = ({serverName, serverStatus, serverPlayers, onClickStart, onCl
                             ${serverStatus == "ONLINE" && style.green}`}></div>
                         {serverStatus} ({serverPlayers.length})
                     </div>
+                </div>
+                <div className={style.error}>
+                    <p>{error}</p>
                 </div>
                 <div className={style.buttons}>
                     <button className={style.startButton} onClick={onClickStart} disabled={

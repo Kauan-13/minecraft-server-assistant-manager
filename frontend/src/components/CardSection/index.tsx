@@ -6,19 +6,14 @@ import { useEffect, useState } from "react";
 
 const CardSection = () => {
     const {
-        servers, 
-        loadingStatus, 
-        errorStatus, 
+        servers,  
         fetchStart, 
-        loadingStart, 
         errorStart, 
         fetchStop,
         errorStop
     } = useServer();
 
     const [isPopupOpen, setIsPopupOpen] = useState(false);
-
-    console.log(isPopupOpen);
 
     useEffect(() => {
         if (errorStart?.status == 401 || errorStop?.status == 401) {
@@ -35,15 +30,17 @@ const CardSection = () => {
                             key={index} 
                             serverName={server.name} 
                             serverStatus={server.status}
-                            serverPlayers={server.players} 
-                            onClickStart={() => fetchStart(server.id)}
-                            onClickStop={() => fetchStop(server.id)}
+                            serverPlayers={server.players}
+                            error={
+                                errorStart?.message && errorStart.serverName == server.name ? errorStart?.message : 
+                                errorStop?.message && errorStop.serverName == server.name ? errorStop?.message : ""
+                            } 
+                            onClickStart={() => fetchStart(server.id, server.name)}
+                            onClickStop={() => fetchStop(server.id, server.name)}
                         />
                     ))
                 }
             </section>
-            <p>{loadingStatus || loadingStart && "carregando"}</p>
-            <p>{errorStatus || errorStart?.message || errorStop?.message}</p>
             { isPopupOpen &&
                 <AuthorizationPopup onClose={() => setIsPopupOpen(false)}/>
             }
