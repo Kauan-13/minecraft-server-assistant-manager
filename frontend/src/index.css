@@ -1,0 +1,23 @@
+:root {
+    --bg-primary: #eeeeee;
+    --bg-secundary: #dddddd;
+    --text-main: #1a1a1a;
+    --border-color: rgba(0, 0, 0, 0.2);
+    --hover-color: #cccccc;
+    --accent-color: #1a1a1a;
+    --confirm-button: #0a996f;
+    --border-confirm-button: #08835e;
+    --cancel-button: #cf0638;
+    --border-cancel-button: #a5052d;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-primary);
+    height: 100svh;
+    width: 100svw;
+}
