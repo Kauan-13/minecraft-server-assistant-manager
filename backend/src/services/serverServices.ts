@@ -2,7 +2,7 @@ import { spawn } from 'child_process';
 import { GameDig } from 'gamedig';
 import config from '../../config.json' with { type: 'json' };
 import AppError from '../utils/AppError.js';
-import type { Server, ServerStatus, User } from '../types/types.js'
+import type { Server, ServerStatus } from '../types/types.js'
 import { Rcon } from 'rcon-client';
 import 'dotenv/config';
 const rconPassword = process.env.RCON_PASSWORD || "";
@@ -26,6 +26,29 @@ setInterval(async () => {
                 attemptTimeout: 500,
                 maxRetries: 1
             });
+
+            let currentInactiveTimestamp: number | null = cached?.inactiveTimestamp || null;
+
+            if (state.players.length < 1) {
+
+                if (!currentInactiveTimestamp) {
+                    currentInactiveTimestamp = Date.now();
+                    const timestamp = new Date().toLocaleTimeString('pt-BR');
+                    console.log(`[${timestamp}] [SISTEMA]: Servidor inativo fechará em 30 minuto`);
+                } else {
+                    const inactiveDuration = Date.now() - currentInactiveTimestamp;
+
+                    if (inactiveDuration >= 1800000) {
+                        const timeStr = new Date().toLocaleTimeString('pt-BR');
+                        console.log(`[${timeStr}] [SISTEMA]: ${server.name} inativo há 30min. Desligando...`);
+                        stopServer(server.id, "SISTEMA");
+                        return;
+                    }
+                }
+            } else {
+                currentInactiveTimestamp = null;
+            }
+
             serverCache.set(server.id, {
                 id: server.id, 
                 name: server.name,
@@ -33,7 +56,8 @@ setInterval(async () => {
                 path: server.path,
                 status: "ONLINE", 
                 players: state.players,
-                stoppingTimestamp: null
+                stoppingTimestamp: null,
+                inactiveTimestamp: currentInactiveTimestamp
             });
         } catch (e) {
             let newStatus: ServerStatus = cached?.status == "STARTING" ? "STARTING" : "OFFLINE";
@@ -45,7 +69,8 @@ setInterval(async () => {
                 path: server.path,
                 status: newStatus,
                 players: [],
-                stoppingTimestamp: null 
+                stoppingTimestamp: null,
+                inactiveTimestamp: null
             });
         }
     }
@@ -58,7 +83,7 @@ const startServer = async (serverId: number) => {
         throw new AppError("Servidor não encontrado", 404);
     }
 
-    if (server.status == "STARTING" || server.status == "ONLINE") {
+    if (server.status == "STARTING" || server.status == "ONLINE" || server.status == "STOPPING") {
         throw new AppError("Servidor já está em execução", 409)
     }
 
@@ -82,7 +107,7 @@ const startServer = async (serverId: number) => {
     return { message: `Comando enviado para o ${server.name}!` };
 }
 
-const stopServer = async (serverId: number, user: User) => {
+const stopServer = async (serverId: number, userName: string) => {
     const server = serverCache.get(serverId);
 
     if (!server) {
@@ -105,7 +130,7 @@ const stopServer = async (serverId: number, user: User) => {
                 password: rconPassword,
             });
 
-            const message = `: O usuário ${user.name} tentou encerrar o servidor`;
+            const message = `: O usuário ${userName} tentou encerrar o servidor`;
 
             await rcon.send(`say ${message}`);
             await rcon.end();

@@ -10,6 +10,7 @@ interface Server {
     status: ServerStatus;
     players: Player[];
     stoppingTimestamp: number | null;
+    inactiveTimestamp: number | null;
 }
 
 interface User {

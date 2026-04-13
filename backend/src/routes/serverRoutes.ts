@@ -3,6 +3,7 @@ import {checkAllServerStatus, checkServerStatus, startServer, stopServer, } from
 import { ipGuard, tokenGuard } from '../middlewares/securityGuard.js';
 import { auditLog } from '../middlewares/auditLog.js';
 import config from '../../config.json' with { type: 'json' };
+import type { User } from '../types/types.js';
 
 interface RequestBody {
     serverId: number;
@@ -36,9 +37,9 @@ router.post('/stop', async (req, res) => {
         return res.status(400).json({ error: "O id do servidor deve ser um valor válido." });
     }
 
-    const userAuthorized = res.locals.user;
+    const userAuthorized: User = res.locals.user;
 
-    const result = await stopServer(req.body.serverId, userAuthorized);
+    const result = await stopServer(req.body.serverId, userAuthorized.name);
     res.json(result);
 });
 
