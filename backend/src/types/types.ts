@@ -9,6 +9,7 @@ interface Server {
     port: number;
     status: ServerStatus;
     players: Player[];
+    stoppingTimestamp: number | null;
 }
 
 interface User {

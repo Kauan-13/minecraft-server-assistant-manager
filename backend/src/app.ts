@@ -3,11 +3,26 @@ import serverRoutes from './routes/serverRoutes.js';
 import errorMiddleware from './middlewares/errorMiddleware.js';
 import 'dotenv/config';
 import config from '../config.json' with { type: 'json' };
+import cors from 'cors';
+
+process.on('uncaughtException', (err) => {
+    console.error('Houve um erro não tratado:', err);
+});
 
 const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(express.json());
+
+const corsOptions = {
+    // Liste aqui as URLs do seu Frontend (onde o React está rodando)
+    origin: config.security.corsURLs,
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'x-api-token'], // Adicione aqui seu header customizado!
+    optionsSuccessStatus: 200 
+};
+
+app.use(cors(corsOptions))
 
 app.use('/', serverRoutes);
 

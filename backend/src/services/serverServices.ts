@@ -13,6 +13,10 @@ setInterval(async () => {
     for (const server of config.servers) {
         const cached = serverCache.get(server.id);
 
+        if (cached?.stoppingTimestamp && Math.abs(cached.stoppingTimestamp - Date.now()) < 60000) {
+            continue;
+        }
+
         try {
             const state = await GameDig.query({
                 type: 'minecraft',
@@ -28,7 +32,8 @@ setInterval(async () => {
                 port: server.port,
                 path: server.path,
                 status: "ONLINE", 
-                players: state.players
+                players: state.players,
+                stoppingTimestamp: null
             });
         } catch (e) {
             let newStatus: ServerStatus = cached?.status == "STARTING" ? "STARTING" : "OFFLINE";
@@ -39,7 +44,8 @@ setInterval(async () => {
                 port: server.port,
                 path: server.path,
                 status: newStatus,
-                players: [] 
+                players: [],
+                stoppingTimestamp: null 
             });
         }
     }
@@ -56,7 +62,7 @@ const startServer = async (serverId: number) => {
         throw new AppError("Servidor já está em execução", 409)
     }
 
-    const serverRunning = Array.from(serverCache.values()).filter(s => s.status == "ONLINE" || s.status == "STARTING");
+    const serverRunning = Array.from(serverCache.values()).filter(s => s.status == "ONLINE" || s.status == "STARTING" || s.status == "STOPPING");
 
     if (serverRunning.length == config.maxConcurrentServers) {
         const serverNames = serverRunning.map(s => s.name)
@@ -67,8 +73,6 @@ const startServer = async (serverId: number) => {
 
     spawn('cmd.exe', ['/c', 'run.bat'], {
         cwd: server.path,
-        shell: true,
-        stdio: 'pipe'
     });
 
     server.status = "STARTING";
@@ -104,6 +108,7 @@ const stopServer = async (serverId: number, user: User) => {
             const message = `: O usuário ${user.name} tentou encerrar o servidor`;
 
             await rcon.send(`say ${message}`);
+            await rcon.end();
         } catch (err) {
             console.error("[SISTEMA]: Erro ao conectar no RCON. O servidor talvez já esteja offline.", err);
         }
@@ -118,6 +123,12 @@ const stopServer = async (serverId: number, user: User) => {
             password: rconPassword,
         });
 
+        rcon.on('error', (err) => {
+            if (err.code === 'ECONNRESET') {
+                console.log('[SISTEMA]: Conexão resetada (provavelmente o servidor fechou).');
+            }
+        });
+
         const timestamp = new Date().toLocaleTimeString('pt-BR');
 
         console.log(`[${timestamp}] [SISTEMA]: Conectado ao RCON. Enviando stop...`);
@@ -125,9 +136,10 @@ const stopServer = async (serverId: number, user: User) => {
         console.log(`[${timestamp}] [SISTEMA]: Resposta do servidor:`, response);
 
         server.status = "STOPPING";
+        server.stoppingTimestamp = Date.now();
         serverCache.set(serverId, server);
 
-        await rcon.end();
+        await rcon.send("stop");
     } catch (err) {
         console.error("[SISTEMA]: Erro ao conectar no RCON. O servidor talvez já esteja offline.", err);
     }
@@ -146,7 +158,7 @@ const checkServerStatus = async (serverId: number) => {
 }
 
 const checkAllServerStatus = async () => {
-    return Object.fromEntries(serverCache);
+    return Array.from(serverCache.values());
 }
 
 export { startServer, checkServerStatus, checkAllServerStatus, stopServer };
