@@ -187,7 +187,7 @@ const stopServer = async (serverId: number, userName: string) => {
     
     try {
         discordWebHook.post(`/${process.env.URL_DISCORD_WEB_HOOK}`, {
-        "content": `${server.name} foi iniciado`
+        "content": `${server.name} foi encerrado`
         })
     } catch (error: any) {
         console.error("Erro na API Externa:", error.message);
