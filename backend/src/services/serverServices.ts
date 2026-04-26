@@ -5,16 +5,11 @@ import AppError from '../utils/AppError.js';
 import type { Server, ServerStatus } from '../types/types.js'
 import { Rcon } from 'rcon-client';
 import 'dotenv/config';
-import axios from 'axios';
+import { sendMessage } from './discordServices.js';
 
 const rconPassword = process.env.RCON_PASSWORD || "";
 
 const serverCache = new Map<number, Server>();
-
-const discordWebHook = axios.create({
-    baseURL: 'https://discord.com/api/webhooks'
-});
-
 
 setInterval(async () => {
     for (const server of config.servers) {
@@ -111,14 +106,7 @@ const startServer = async (serverId: number) => {
 
     serverCache.set(serverId, server);
 
-    try {
-        discordWebHook.post(`/${process.env.URL_DISCORD_WEB_HOOK}`, {
-        "content": `${server.name} foi iniciado`
-        })
-    } catch (error: any) {
-        console.error("Erro na API Externa:", error.message);
-    }
-    
+    sendMessage(`${server.name} foi iniciado`);
     
     return { message: `Comando enviado para o ${server.name}!` };
 }
@@ -185,13 +173,7 @@ const stopServer = async (serverId: number, userName: string) => {
         console.error("[SISTEMA]: Erro ao conectar no RCON. O servidor talvez já esteja offline.", err);
     }
     
-    try {
-        discordWebHook.post(`/${process.env.URL_DISCORD_WEB_HOOK}`, {
-        "content": `${server.name} foi encerrado`
-        })
-    } catch (error: any) {
-        console.error("Erro na API Externa:", error.message);
-    }
+    sendMessage(`${server.name} foi encerrado`)
 
     return { message: `Comando enviado para o ${server.name}!` };
 }

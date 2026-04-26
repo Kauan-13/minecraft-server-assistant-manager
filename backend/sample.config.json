@@ -1,5 +1,9 @@
 {
     "maxConcurrentServers": 1,
+    "network": {
+        "radminIp": "25.xx.xx.xx",
+        "frontendUrl": "http://25.xx.xx.xx:5173"
+    },
     "servers": [
         {
             "id": 1,

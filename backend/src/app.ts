@@ -4,6 +4,7 @@ import errorMiddleware from './middlewares/errorMiddleware.js';
 import 'dotenv/config';
 import config from '../config.json' with { type: 'json' };
 import cors from 'cors';
+import { sendMessage } from './services/discordServices.js';
 
 process.on('uncaughtException', (err) => {
     console.error('Houve um erro não tratado:', err);
@@ -15,10 +16,9 @@ const port = process.env.PORT || 3000;
 app.use(express.json());
 
 const corsOptions = {
-    // Liste aqui as URLs do seu Frontend (onde o React está rodando)
     origin: config.security.corsURLs,
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'x-api-token'], // Adicione aqui seu header customizado!
+    allowedHeaders: ['Content-Type', 'x-api-token'],
     optionsSuccessStatus: 200 
 };
 
@@ -37,4 +37,10 @@ app.listen(port, () => {
     if (!config.security.requireToken) {
         console.warn("\x1b[33m%s\x1b[0m", "[AVISO] Verificação de TOKEN está DESATIVADA!");
     }
+
+    const serverList = config.servers
+        .map(s => `🔹 **${s.name}**: \`${config.network.radminIp}:${s.port}\``)
+        .join('\n');
+
+    sendMessage(`🛰️ **Sistema Iniciado!**\n\n**Acesse o Painel:**\n${config.network.frontendUrl}\n\n**Servidores Disponíveis:**\n${serverList}`);
 });
