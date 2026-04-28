@@ -4,7 +4,7 @@ import errorMiddleware from './middlewares/errorMiddleware.js';
 import 'dotenv/config';
 import config from '../config.json' with { type: 'json' };
 import cors from 'cors';
-import { sendMessage } from './services/discordServices.js';
+import { sendMessage } from './services/discordService.js';
 
 process.on('uncaughtException', (err) => {
     console.error('Houve um erro não tratado:', err);
