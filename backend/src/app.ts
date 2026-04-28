@@ -5,15 +5,12 @@ import 'dotenv/config';
 import config from '../config.json' with { type: 'json' };
 import cors from 'cors';
 import { sendMessage } from './services/discordService.js';
+import { auditLog } from './middlewares/auditLog.js';
+import logger from './utils/Logger.js';
 
 process.on('uncaughtException', (err) => {
-    console.error('Houve um erro não tratado:', err);
+    logger.error('Houve um erro não tratado:', err);
 });
-
-const app = express();
-const port = process.env.PORT || 3000;
-
-app.use(express.json());
 
 const corsOptions = {
     origin: config.security.corsURLs,
@@ -22,20 +19,27 @@ const corsOptions = {
     optionsSuccessStatus: 200 
 };
 
+const app = express();
+const port = process.env.PORT || 3000;
+
+app.use(express.json());
+
 app.use(cors(corsOptions))
+
+app.use(auditLog);
 
 app.use('/', serverRoutes);
 
 app.use(errorMiddleware);
 
 app.listen(port, () => {
-    console.log(`Servidor rodando em http://0.0.0.0:${port}`);
+    logger.info(`Servidor rodando em http://0.0.0.0:${port}`);
 
     if (!config.security.enableIpWhitelist) {
-        console.warn("\x1b[33m%s\x1b[0m", "[AVISO] Verificação de IP está DESATIVADA!");
+        logger.warn("\x1b[33m%s\x1b[0m", "[AVISO] Verificação de IP está DESATIVADA!");
     }
     if (!config.security.requireToken) {
-        console.warn("\x1b[33m%s\x1b[0m", "[AVISO] Verificação de TOKEN está DESATIVADA!");
+        logger.warn("\x1b[33m%s\x1b[0m", "[AVISO] Verificação de TOKEN está DESATIVADA!");
     }
 
     const serverList = config.servers
@@ -46,12 +50,12 @@ app.listen(port, () => {
 });
 
 const gracefulShutdown = async () => {
-    console.log('\nFinalizando processos...');
+    logger.info('\nFinalizando processos...');
 
     try {
         await sendMessage("⚠️ O sistema foi desligado.");
     } catch (err: any) {
-        console.error("Erro ao notificar:", err.message);
+        logger.warn("Erro ao notificar:", err.message);
     } finally {
         process.exit(0);
     }

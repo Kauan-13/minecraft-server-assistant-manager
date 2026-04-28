@@ -1,4 +1,5 @@
 import axios from 'axios';
+import logger from '../utils/Logger.js';
 
 const sendMessage = async (message: string) => {
     try {
@@ -6,7 +7,7 @@ const sendMessage = async (message: string) => {
             "content": message
         })
     } catch (error: any) {
-        console.error("Erro na API Externa:", error.message);
+        logger.warn("Erro na API Externa:", error.message);
     }
 }
 
