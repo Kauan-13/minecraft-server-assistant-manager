@@ -38,7 +38,7 @@ setInterval(async () => {
                         const timeStr = new Date().toLocaleTimeString('pt-BR');
                         console.log(`[${timeStr}] [SISTEMA]: ${server.name} inativo há 30min. Desligando...`);
                         stopServer(server.id, "SISTEMA");
-                        return;
+                        continue;
                     }
                 }
             } else {
