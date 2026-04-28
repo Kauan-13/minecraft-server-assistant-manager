@@ -2,6 +2,7 @@ import { GameDig } from 'gamedig';
 import config from '../../config.json' with { type: 'json' };
 import type { Server, ServerStatus } from '../types/types.js'
 import { stopServer } from './serverServices.js';
+import logger from '../utils/Logger.js';
 
 const serverCache = new Map<number, Server>();
 
@@ -46,14 +47,16 @@ setInterval(async () => {
                 //E não existia ainda o tempo de inatividade ele cria o timestamp
                 if (!currentInactiveTimestamp) {
                     currentInactiveTimestamp = Date.now();
-                    const timestamp = new Date().toLocaleTimeString('pt-BR');
-                    console.log(`[${timestamp}] [SISTEMA]: ${newServerStatus.name} inativo fechará em 30 minuto`);
+                    logger.info(`Server será encerrado após 30 minutos de inatividade`, { 
+                        server: newServerStatus.name, 
+                    });
                 } else { //Se já tinha um timestamp ele verifica se já passou 30 minutos de inatividade
                     const inactiveDuration = Date.now() - currentInactiveTimestamp;
 
                     if (inactiveDuration >= 1800000) {
-                        const timeStr = new Date().toLocaleTimeString('pt-BR');
-                        console.log(`[${timeStr}] [SISTEMA]: ${newServerStatus.name} inativo há 30min. Desligando...`);
+                        logger.warn(`Encerramento automático disparado por inatividade`, { 
+                            server: newServerStatus.name, 
+                        });
                         stopServer(newServerStatus.id, "SISTEMA"); //Se tiver passado ele desliga o servidor
                         continue;
                     }

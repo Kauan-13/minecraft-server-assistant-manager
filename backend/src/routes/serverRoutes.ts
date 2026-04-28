@@ -21,14 +21,12 @@ if (config.security.requireToken) {
     router.post('/stop', tokenGuard);
 }
 
-router.use(auditLog);
-
 router.post('/start', async (req: Request<{}, {}, RequestBody>, res) => {
     if (!req.body.serverId || typeof req.body.serverId !== "number") {
         return res.status(400).json({ error: "O id do servidor deve ser um valor válido." });
     }
 
-    const result = await startServer(req.body.serverId);
+    const result = await startServer(req.body.serverId, res.locals.user?.name);
     res.json(result);
 });
 

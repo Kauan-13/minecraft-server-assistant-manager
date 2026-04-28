@@ -2,6 +2,7 @@ import { spawn } from "child_process";
 import { access, constants } from 'node:fs/promises';
 import path from 'node:path';
 import AppError from "../utils/AppError.js";
+import logger from "../utils/Logger.js";
 
 const startWindowsServer = async (serverPath: string) => {
     if (!await validateServerPath(serverPath)) {
@@ -13,7 +14,7 @@ const startWindowsServer = async (serverPath: string) => {
     });
 
     child.on('error', (err) => {
-        console.error(`[SISTEMA]: Erro crítico ao disparar spawn em ${serverPath}:`, err);
+        logger.error(`[SISTEMA]: Erro crítico ao disparar spawn em ${serverPath}:`, err);
     });
 
     child.unref();
