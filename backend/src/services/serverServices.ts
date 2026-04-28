@@ -1,14 +1,11 @@
-import { spawn } from 'child_process';
 import config from '../../config.json' with { type: 'json' };
 import AppError from '../utils/AppError.js';
 import type { Server } from '../types/types.js'
-import { Rcon } from 'rcon-client';
 import 'dotenv/config';
 import { sendMessage } from './discordService.js';
 import { serverCache } from './queryService.js';
 import { startWindowsServer } from './processService.js';
-
-const rconPassword = process.env.RCON_PASSWORD || "";
+import { sendCommand } from './rconService.js';
 
 const startServer = async (serverId: number) => {
     const server: Server | undefined = serverCache.get(serverId);
@@ -58,16 +55,9 @@ const stopServer = async (serverId: number, userName: string) => {
             .join(", ");
 
         try {
-            const rcon = await Rcon.connect({
-                host: "127.0.0.1",
-                port: config.servers.find(s => s.id == serverId)!.rconPort,
-                password: rconPassword,
-            });
-
             const message = `: O usuário ${userName} tentou encerrar o servidor`;
 
-            await rcon.send(`say ${message}`);
-            await rcon.end();
+            await sendCommand(config.servers.find(s => s.id == serverId)!.rconPort, `say ${message}`);
         } catch (err) {
             console.error("[SISTEMA]: Erro ao conectar no RCON. O servidor talvez já esteja offline.", err);
         }
@@ -76,29 +66,12 @@ const stopServer = async (serverId: number, userName: string) => {
     }
 
     try {
-        const rcon = await Rcon.connect({
-            host: "127.0.0.1",
-            port: config.servers.find(s => s.id == serverId)!.rconPort,
-            password: rconPassword,
-        });
-
-        rcon.on('error', (err) => {
-            if (err.code === 'ECONNRESET') {
-                console.log('[SISTEMA]: Conexão resetada (provavelmente o servidor fechou).');
-            }
-        });
-
-        const timestamp = new Date().toLocaleTimeString('pt-BR');
-
-        console.log(`[${timestamp}] [SISTEMA]: Conectado ao RCON. Enviando stop...`);
-        const response = await rcon.send("stop");
-        console.log(`[${timestamp}] [SISTEMA]: Resposta do servidor:`, response);
+        await sendCommand(config.servers.find(s => s.id == serverId)!.rconPort, "stop");
 
         server.status = "STOPPING";
         server.stoppingTimestamp = Date.now();
         serverCache.set(serverId, server);
 
-        await rcon.send("stop");
     } catch (err) {
         console.error("[SISTEMA]: Erro ao conectar no RCON. O servidor talvez já esteja offline.", err);
     }
