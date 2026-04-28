@@ -6,6 +6,7 @@ import { Rcon } from 'rcon-client';
 import 'dotenv/config';
 import { sendMessage } from './discordService.js';
 import { serverCache } from './queryService.js';
+import { startWindowsServer } from './processService.js';
 
 const rconPassword = process.env.RCON_PASSWORD || "";
 
@@ -29,9 +30,7 @@ const startServer = async (serverId: number) => {
         throw new AppError(`Não é possível iniciar este servidor pois o servidor ${serverNames} já está em execução`, 409);
     }
 
-    spawn('cmd.exe', ['/c', 'run.bat'], {
-        cwd: server.path,
-    });
+    await startWindowsServer(server.path);
 
     server.status = "STARTING";
 
