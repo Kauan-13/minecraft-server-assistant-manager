@@ -1,5 +1,7 @@
 import { Rcon } from 'rcon-client';
-const rconPassword = process.env.RCON_PASSWORD || "";
+import { env } from '../config/index.js';
+
+const rconPassword = env.RCON_PASSWORD || "";
 
 const connectRcon = (port: number) => {
     return Rcon.connect({ 
