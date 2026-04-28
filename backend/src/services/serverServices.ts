@@ -1,12 +1,11 @@
-import config from '../../config.json' with { type: 'json' };
 import AppError from '../utils/AppError.js';
 import type { Server } from '../types/types.js'
-import 'dotenv/config';
 import { sendMessage } from './discordService.js';
 import { serverCache } from './queryService.js';
 import { startWindowsServer } from './processService.js';
 import { sendCommand } from './rconService.js';
-import logger from '../utils/Logger.js';
+import logger from '../utils/logger.js';
+import { config } from '../config/index.js';
 
 const activeServers = Array.from(serverCache.values())
     .filter(s => ["ONLINE", "STARTING", "STOPPING"].includes(s.status));

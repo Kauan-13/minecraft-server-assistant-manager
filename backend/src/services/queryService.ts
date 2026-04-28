@@ -1,8 +1,8 @@
 import { GameDig } from 'gamedig';
-import config from '../../config.json' with { type: 'json' };
 import type { Server, ServerStatus } from '../types/types.js'
 import { stopServer } from './serverServices.js';
-import logger from '../utils/Logger.js';
+import logger from '../utils/logger.js';
+import { config } from '../config/index.js';
 
 const serverCache = new Map<number, Server>();
 

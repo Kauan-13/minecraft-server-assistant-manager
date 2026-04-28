@@ -1,7 +1,6 @@
 import type { Request, Response, NextFunction } from 'express';
-import logger from '../utils/Logger.js';
-
-const timestamp = new Date().toLocaleTimeString('pt-BR');
+import logger from '../utils/logger.js';
+import { env } from '../config/index.js';
 
 const ipGuard = (req: Request, res: Response, next: NextFunction) => {
     // Se o auditLog achou o usuário, ele estará aqui
@@ -19,7 +18,12 @@ const ipGuard = (req: Request, res: Response, next: NextFunction) => {
 
 const tokenGuard = (req: Request, res: Response, next: NextFunction) => {
     const providedToken = req.headers['x-api-token'];
-    const secretToken = process.env.API_TOKEN;
+    const secretToken = env.API_TOKEN;
+
+    if (!secretToken) {
+        logger.error("ERRO CRÍTICO: 'requireToken' está ativo, mas API_TOKEN não foi definido no .env");
+        return res.status(403).json({error: "não foi possivel validar token"})
+    }
 
     if (!providedToken || providedToken !== secretToken) {
         logger.warn(`Tentativa de comando com token inválido`, { 

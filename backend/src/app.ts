@@ -1,12 +1,11 @@
 import express from 'express';
 import serverRoutes from './routes/serverRoutes.js';
 import errorMiddleware from './middlewares/errorMiddleware.js';
-import 'dotenv/config';
-import config from '../config.json' with { type: 'json' };
 import cors from 'cors';
 import { sendMessage } from './services/discordService.js';
 import { auditLog } from './middlewares/auditLog.js';
-import logger from './utils/Logger.js';
+import logger from './utils/logger.js';
+import { config, env } from './config/index.js';
 
 process.on('uncaughtException', (err) => {
     logger.error('Houve um erro não tratado:', err);
@@ -20,7 +19,7 @@ const corsOptions = {
 };
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = env.PORT || 3000;
 
 app.use(express.json());
 
@@ -36,21 +35,26 @@ app.listen(port, () => {
     logger.info(`Servidor rodando em http://0.0.0.0:${port}`);
 
     if (!config.security.enableIpWhitelist) {
-        logger.warn("\x1b[33m%s\x1b[0m", "[AVISO] Verificação de IP está DESATIVADA!");
+        logger.warn("Verificação de IP está DESATIVADA!");
     }
     if (!config.security.requireToken) {
-        logger.warn("\x1b[33m%s\x1b[0m", "[AVISO] Verificação de TOKEN está DESATIVADA!");
+        logger.warn("Verificação de TOKEN está DESATIVADA!");
+    }
+
+    if (config.security.requireToken && !env.API_TOKEN) {
+        logger.error("ERRO CRÍTICO: 'requireToken' está ativo, mas API_TOKEN não foi definido no .env");
+        gracefulShutdown();
     }
 
     const serverList = config.servers
-        .map(s => `🔹 **${s.name}**: \`${config.network.radminIp}:${s.port}\``)
+        .map(s => `🔹 **${s.name}**: \`${env.RADMIN_IP}:${s.port}\``)
         .join('\n');
 
-    sendMessage(`🛰️ **Sistema Iniciado!**\n\n**Acesse o Painel:**\n${config.network.frontendUrl}\n\n**Servidores Disponíveis:**\n${serverList}`);
+    sendMessage(`🛰️ **Sistema Iniciado!**\n\n**Acesse o Painel:**\n${env.FRONTEND_URL}\n\n**Servidores Disponíveis:**\n${serverList}`);
 });
 
 const gracefulShutdown = async () => {
-    logger.info('\nFinalizando processos...');
+    logger.info('Finalizando processos...');
 
     try {
         await sendMessage("⚠️ O sistema foi desligado.");

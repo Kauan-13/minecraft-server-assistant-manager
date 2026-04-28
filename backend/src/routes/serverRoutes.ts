@@ -1,9 +1,8 @@
 import { Router, type Request } from 'express';
 import {checkAllServerStatus, checkServerStatus, startServer, stopServer, } from '../services/serverServices.js';
 import { ipGuard, tokenGuard } from '../middlewares/securityGuard.js';
-import { auditLog } from '../middlewares/auditLog.js';
-import config from '../../config.json' with { type: 'json' };
 import type { User } from '../types/types.js';
+import { config } from '../config/index.js';
 
 interface RequestBody {
     serverId: number;

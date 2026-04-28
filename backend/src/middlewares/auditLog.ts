@@ -1,6 +1,6 @@
 import type { Request, Response, NextFunction } from 'express';
-import logger from '../utils/Logger.js';
-import config from '../../config.json' with { type: 'json' };
+import logger from '../utils/logger.js';
+import { config } from '../config/index.js';
 
 const auditLog = (req: Request, res: Response, next: NextFunction) => {
     const clientIp = req.ip || req.socket.remoteAddress || '';
