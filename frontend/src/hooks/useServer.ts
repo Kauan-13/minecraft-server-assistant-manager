@@ -7,11 +7,11 @@ const useServer = ( intervalMs = 5000) => {
     const [loadingStatus, setLoadingStatus] = useState(true);
     const [errorStatus, setErrorStatus] = useState<string | null>(null);
     
-    const [serverStartResponse, setServerStartResponse] = useState<{message: string}>(null);
+    // const [serverStartResponse, setServerStartResponse] = useState<{message: string}>(null);
     const [loadingStart, setLoadingStart] = useState(false);
     const [errorStart, setErrorStart] = useState<{message: string, status: number, serverName: string} | null>(null);
 
-    const [serverStopResponse, setServerStopResponse] = useState<{message: string}>(null);
+    // const [serverStopResponse, setServerStopResponse] = useState<{message: string}>(null);
     const [loadingStop, setLoadingStop] = useState(false);
     const [errorStop, setErrorStop] = useState<{message: string, status: number, serverName: string} | null>(null);
 
@@ -23,7 +23,7 @@ const useServer = ( intervalMs = 5000) => {
         } catch (err: any) {
             const message = err.response?.data?.error || "Erro ao conectar com o servidor";
             setErrorStatus(message);
-            setServers(null); 
+            setServers([]); 
         } finally {
             setLoadingStatus(false);
         }
@@ -33,7 +33,7 @@ const useServer = ( intervalMs = 5000) => {
         setLoadingStart(true);
         try {
             const response = await urlStart(serverId);
-            setServerStartResponse(response);
+            // setServerStartResponse(response);
             setErrorStart(null);
         } catch (err: any) {
             console.log(err);
@@ -44,7 +44,7 @@ const useServer = ( intervalMs = 5000) => {
                 status: err.response?.status || 500,
                 serverName: serverName
             });
-            setServerStartResponse(null);
+            // setServerStartResponse(null);
             
             setTimeout(() => {
                 setErrorStart(null);
@@ -58,7 +58,7 @@ const useServer = ( intervalMs = 5000) => {
         setLoadingStop(true);
         try {
             const response = await urlStop(serverId);
-            setServerStopResponse(response);
+            // setServerStopResponse(response);
             setErrorStop(null);
         } catch (err: any) {
             const message = err.response?.data?.message || "Erro ao conectar com o servidor";
@@ -67,7 +67,7 @@ const useServer = ( intervalMs = 5000) => {
                 status: err.response?.status || 500,
                 serverName: serverName
             });
-            setServerStopResponse(null); 
+            // setServerStopResponse(null); 
 
             setTimeout(() => {
                 setErrorStop(null);
@@ -89,7 +89,7 @@ const useServer = ( intervalMs = 5000) => {
         return () => clearInterval(timer);
     }, [fetchStatus, intervalMs]);
 
-    return { servers, loadingStatus, errorStatus, serverStartResponse, errorStart, loadingStart, fetchStart, serverStopResponse, errorStop, loadingStop, fetchStop };
+    return { servers, loadingStatus, errorStatus, errorStart, loadingStart, fetchStart, errorStop, loadingStop, fetchStop };
 }
 
 export default useServer;

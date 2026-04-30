@@ -22,7 +22,18 @@ const ServerCard = ({serverName, serverStatus, serverPlayers, onClickStart, onCl
                             `${style.ball} 
                             ${serverStatus == "STARTING" || serverStatus == "STOPPING" ? style.yellow : null}
                             ${serverStatus == "ONLINE" && style.green}`}></div>
-                        {serverStatus} ({serverPlayers.length})
+                        <div className={style.statusLength}>
+                            {serverStatus} (<span>{serverPlayers.length}</span>)
+                        </div>
+                        {serverPlayers.length > 0 &&
+                            <div className={style.playerList}>
+                                {
+                                    serverPlayers.map((player, index) => (
+                                        <p key={index}>{player.name}</p>
+                                    ))
+                                }
+                            </div>
+                        }
                     </div>
                 </div>
                 <div className={style.error}>
