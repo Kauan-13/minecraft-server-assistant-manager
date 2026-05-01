@@ -103,7 +103,7 @@
     position: absolute;
     display: none;
     right: 0;
-    bottom: -25px;
+    top: 25px;
     background-color: black;
     padding: 2px;
 }
