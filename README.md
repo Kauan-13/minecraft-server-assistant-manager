@@ -6,6 +6,8 @@
 ![Axios](https://img.shields.io/badge/Axios-5A29E4?style=for-the-badge&logo=axios&logoColor=white)
 ![Winston](https://img.shields.io/badge/Winston_Logs-gray?style=for-the-badge&logo=logstash&logoColor=white)
 
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/seu-usuario/seu-repositorio?style=for-the-badge)
+
 ## Motivação
 Este projeto nasceu para resolver um problema comum ao jogar Minecraft com amigos via VPN (como Radmin) que é a necessidade de do host sempre online. 
 
