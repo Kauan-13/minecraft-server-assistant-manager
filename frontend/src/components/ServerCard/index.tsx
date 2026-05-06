@@ -6,11 +6,9 @@ interface Props {
     serverStatus: ServerStatus,
     serverPlayers: Player[],
     error?: string,
-    onClickStart: () => {},
-    onClickStop: () => {}
+    onClickStart: () => void,
+    onClickStop: () => void
 }
-
-const serverPlayersMock: Player[] = [{name: "Michael",raw: "I'm not superstitious, but I am a little stitious."},{name: "Jim",raw: "Everything I have I owe to this job. This stupid, wonderful, boring, amazing job."},{name: "Pam",raw: "There's a lot of beauty in ordinary things. Isn't that kind of the point?"},{name: "Dwight",raw: "Identity theft is not a joke, Jim! Millions of families suffer every year!"}]
 
 const ServerCard = ({serverName, serverStatus, serverPlayers, onClickStart, onClickStop, error}: Props) => {
     return (
