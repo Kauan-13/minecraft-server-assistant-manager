@@ -7,9 +7,6 @@ import { sendCommand } from './rconService.js';
 import logger from '../utils/logger.js';
 import { config } from '../config/index.js';
 
-const activeServers = Array.from(serverCache.values())
-    .filter(s => ['ONLINE', 'STARTING', 'STOPPING'].includes(s.status));
-
 const startServer = async (serverId: number, userName: string) => {
     const server: Server | undefined = serverCache.get(serverId);
 
@@ -30,6 +27,9 @@ const startServer = async (serverId: number, userName: string) => {
         });
         throw new AppError('Servidor já está em execução', 409);
     }
+
+    const activeServers = Array.from(serverCache.values())
+    .filter(s => ['ONLINE', 'STARTING', 'STOPPING'].includes(s.status));
 
     if (activeServers.length >= config.maxConcurrentServers) {
         const serverNames = activeServers.map(s => s.name).join(', ');
