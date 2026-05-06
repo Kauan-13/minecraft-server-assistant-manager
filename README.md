@@ -1,12 +1,13 @@
-# Minecraft Server Assistant Manager (MSAM)
+# inecraft Server Assistant Manager (MSAM)
+
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/Kauan-13/minecraft-server-assistant-manager?style=for-the-badge)
+![Status do CI](https://github.com/kauan-13/minecraft-server-assistant-manager/actions/workflows/ci.yml/badge.svg)
 
 ![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
 ![Express](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white)
 ![Axios](https://img.shields.io/badge/Axios-5A29E4?style=for-the-badge&logo=axios&logoColor=white)
 ![Winston](https://img.shields.io/badge/Winston_Logs-gray?style=for-the-badge&logo=logstash&logoColor=white)
-
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/Kauan-13/minecraft-server-assistant-manager?style=for-the-badge)
 
 ## Motivação
 Este projeto nasceu para resolver um problema comum ao jogar Minecraft com amigos via VPN (como Radmin) que é a necessidade de do host sempre online. 
@@ -104,10 +105,4 @@ Para encerrar a aplicação com segurança:
 * **RCON:** Essencial que os servidores de Minecraft estejam com o protocolo RCON habilitado para o desligamento seguro.
 
 ## Próximos Passos
-- [ ] **Execução Nativa:** Iniciar processos Java sem dependência de arquivos `.bat`.
-- [ ] **Console em Tempo Real:** Visualização de logs e envio de comandos via interface web.
-- [ ] **Customização Visual:** Suporte a capas customizáveis para cada servidor.
-- [ ] **Personalização de Alertas:** Mensagens de notificação do Discord configuráveis.
-- [ ] **Gestão de Acessos:** Sistema de permissões granulares por usuário.
-- [ ] **Internacionalização:** Suporte a Inglês e Português em toda a aplicação e documentação.
-- [ ] **Dockerização:** Suporte a ambientes Linux através de containers Docker.
+Este projeto está em constante evolução. Confira o planejamento para próximas versões na aba de [Issues](https://github.com/Kauan-13/minecraft-server-assistant-manager/issues).
