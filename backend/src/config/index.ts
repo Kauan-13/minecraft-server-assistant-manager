@@ -1,5 +1,18 @@
 import 'dotenv/config';
-import config from '../../config.json' with { type: 'json' };
+import path from 'path';
+import fs from 'fs';
+import logger from '../utils/logger.js';
+
+const configPath = path.join(process.cwd(), 'config.json');
+
+let config;
+
+try {
+    const fileContent = fs.readFileSync(configPath, 'utf-8');
+    config = JSON.parse(fileContent);
+} catch {
+    logger.error('Erro ao carregar config.json');
+}
 
 const env = {
     PORT: process.env.PORT || 3000,
