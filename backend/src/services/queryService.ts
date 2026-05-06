@@ -1,5 +1,5 @@
 import { GameDig } from 'gamedig';
-import type { Server, ServerStatus } from '../types/types.js'
+import type { Server, ServerStatus } from '../types/types.js';
 import { stopServer } from './serverServices.js';
 import logger from '../utils/logger.js';
 import { config } from '../config/index.js';
@@ -14,7 +14,7 @@ setInterval(async () => {
                 name: server.name,
                 port: server.port,
                 path: server.path,
-                status: "OFFLINE", 
+                status: 'OFFLINE', 
                 players: [],
                 stoppingTimestamp: null,
                 inactiveTimestamp: null
@@ -47,17 +47,17 @@ setInterval(async () => {
                 //E não existia ainda o tempo de inatividade ele cria o timestamp
                 if (!currentInactiveTimestamp) {
                     currentInactiveTimestamp = Date.now();
-                    logger.info(`Server será encerrado após 30 minutos de inatividade`, { 
+                    logger.info('Server será encerrado após 30 minutos de inatividade', { 
                         server: newServerStatus.name, 
                     });
                 } else { //Se já tinha um timestamp ele verifica se já passou 30 minutos de inatividade
                     const inactiveDuration = Date.now() - currentInactiveTimestamp;
 
                     if (inactiveDuration >= 1800000) {
-                        logger.warn(`Encerramento automático disparado por inatividade`, { 
+                        logger.warn('Encerramento automático disparado por inatividade', { 
                             server: newServerStatus.name, 
                         });
-                        stopServer(newServerStatus.id, "SISTEMA"); //Se tiver passado ele desliga o servidor
+                        stopServer(newServerStatus.id, 'SISTEMA'); //Se tiver passado ele desliga o servidor
                         continue;
                     }
                 }
@@ -65,14 +65,14 @@ setInterval(async () => {
                 currentInactiveTimestamp = null;
             }
 
-            newServerStatus.status = "ONLINE";
+            newServerStatus.status = 'ONLINE';
             newServerStatus.players = state.players;
             newServerStatus.stoppingTimestamp = null;
             newServerStatus.inactiveTimestamp = currentInactiveTimestamp;
 
             serverCache.set(server.id, newServerStatus);
-        } catch (e) {
-            let newStatus: ServerStatus = cached?.status == "STARTING" ? "STARTING" : "OFFLINE";
+        } catch {
+            const newStatus: ServerStatus = cached?.status == 'STARTING' ? 'STARTING' : 'OFFLINE';
 
             newServerStatus.status = newStatus;
             newServerStatus.stoppingTimestamp = null;
@@ -83,4 +83,4 @@ setInterval(async () => {
     }
 }, 5000);
 
-export { serverCache }
+export { serverCache };

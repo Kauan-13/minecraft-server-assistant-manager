@@ -8,20 +8,22 @@ const sendMessage = async (message: string) => {
     }
     
     if (!env.DISCORD_WEB_HOOK) {
-        logger.error("Integração com discord está ativado porém não foi encontrado webhook nas váriaveis de ambiente");
+        logger.error('Integração com discord está ativado porém não foi encontrado webhook nas váriaveis de ambiente');
         return;
     }
     
     try {
         await axios.post(env.DISCORD_WEB_HOOK, {
-            "content": message
-        })
-    } catch (error: any) {
-        const status = error.response?.status || "N/A";
-        logger.warn(`Falha ao enviar mensagem para o Discord [Status: ${status}]`, { 
+            'content': message
+        });
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+        const message = error.message || 'N/A';
+        logger.warn(`Falha ao enviar mensagem para o Discord [message: ${message}]`, { 
             detail: error.message 
         });
+        }
     }
-}
+};
 
-export {sendMessage}
+export {sendMessage};

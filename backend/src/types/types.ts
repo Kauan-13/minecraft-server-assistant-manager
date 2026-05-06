@@ -1,6 +1,6 @@
-import type { Player } from "gamedig";
+import type { Player } from 'gamedig';
 
-type ServerStatus = "OFFLINE" | "STARTING" | "ONLINE" | "STOPPING";
+type ServerStatus = 'OFFLINE' | 'STARTING' | 'ONLINE' | 'STOPPING';
 
 interface Server {
     id: number;
@@ -18,4 +18,4 @@ interface User {
     ips: string[]
 }
 
-export type { Server, ServerStatus, User }
+export type { Server, ServerStatus, User };

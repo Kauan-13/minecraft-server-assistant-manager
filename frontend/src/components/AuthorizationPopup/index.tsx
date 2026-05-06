@@ -7,7 +7,7 @@ interface Props {
 }
 
 const AuthorizationPopup = ({onClose}: Props) => {
-    const [token, setToken] = useState(localStorage.getItem("minecraft-api-token"));
+    const [token, setToken] = useState(localStorage.getItem("minecraft-api-token") || "");
 
     const handleSubmit = (token: string) => {
         localStorage.setItem("minecraft-api-token", token);

@@ -1,11 +1,12 @@
 import axios from 'axios';
+import type { Server } from '../types/Server';
 const apiUrl = import.meta.env.VITE_API_URL;
 
 const api = axios.create({
     baseURL: apiUrl,
 });
 
-const urlStatus = async () => {
+const urlStatus = async (): Promise<Server[]> => {
     const response = await api.get("/status");
     return response.data;
 }

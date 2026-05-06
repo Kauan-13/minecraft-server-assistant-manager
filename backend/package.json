@@ -4,9 +4,12 @@
   "description": "",
   "main": "app.ts",
   "scripts": {
+    "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "tsx watch src/app.ts",
-    "start": "cross-env NODE_ENV=production tsx src/app.ts"
+    "start": "cross-env NODE_ENV=production tsx src/app.ts",
+    "lint": "eslint . --ext .ts",
+    "lint:fix": "eslint . --ext .ts --fix"
   },
   "repository": {
     "type": "git",
@@ -31,13 +34,18 @@
     "winston": "^3.19.0"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/gamedig": "^5.0.3",
     "@types/node": "^25.6.0",
+    "@typescript-eslint/eslint-plugin": "^8.59.2",
+    "@typescript-eslint/parser": "^8.59.2",
+    "eslint": "^10.3.0",
     "nodemon": "^3.1.14",
     "ts-node": "^10.9.2",
     "tsx": "^4.21.0",
-    "typescript": "^6.0.2"
+    "typescript": "^6.0.2",
+    "typescript-eslint": "^8.59.2"
   }
 }

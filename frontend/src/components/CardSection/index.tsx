@@ -2,24 +2,16 @@ import style from "./style.module.css";
 import useServer from '../../hooks/useServer';
 import ServerCard from "../ServerCard";
 import AuthorizationPopup from "../AuthorizationPopup";
-import { useEffect, useState } from "react";
 
 const CardSection = () => {
     const {
         servers,  
         fetchStart, 
-        errorStart, 
         fetchStop,
-        errorStop
+        error,
+        isErrorPopupOpen,
+        setIsErrorPopupOpen
     } = useServer();
-
-    const [isPopupOpen, setIsPopupOpen] = useState(false);
-
-    useEffect(() => {
-        if (errorStart?.status == 401 || errorStop?.status == 401) {
-            setIsPopupOpen(true);
-        }
-    }, [errorStart, errorStop])
 
     return (
         <>
@@ -32,8 +24,7 @@ const CardSection = () => {
                             serverStatus={server.status}
                             serverPlayers={server.players}
                             error={
-                                errorStart?.message && errorStart.serverName == server.name ? errorStart?.message : 
-                                errorStop?.message && errorStop.serverName == server.name ? errorStop?.message : ""
+                                error?.message && error.serverName == server.name ? error?.message : "" 
                             } 
                             onClickStart={() => fetchStart(server.id, server.name)}
                             onClickStop={() => fetchStop(server.id, server.name)}
@@ -41,8 +32,8 @@ const CardSection = () => {
                     ))
                 }
             </section>
-            { isPopupOpen &&
-                <AuthorizationPopup onClose={() => setIsPopupOpen(false)}/>
+            { isErrorPopupOpen &&
+                <AuthorizationPopup onClose={() => setIsErrorPopupOpen(false)}/>
             }
         </>
     )
