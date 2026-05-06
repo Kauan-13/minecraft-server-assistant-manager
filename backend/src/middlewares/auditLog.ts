@@ -12,7 +12,7 @@ const auditLog = (req: Request, res: Response, next: NextFunction) => {
     res.locals.user = user;
     
     logger.info(`${method} ${path}`, { 
-        user: user || "Visitante", 
+        user: user || 'Visitante', 
         ip: clientIp,
         context: 'AUDIT'
     });

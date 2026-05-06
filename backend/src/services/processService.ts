@@ -1,12 +1,12 @@
-import { spawn } from "child_process";
+import { spawn } from 'child_process';
 import { access, constants } from 'node:fs/promises';
 import path from 'node:path';
-import AppError from "../utils/AppError.js";
-import logger from "../utils/logger.js";
+import AppError from '../utils/AppError.js';
+import logger from '../utils/logger.js';
 
 const startWindowsServer = async (serverPath: string) => {
     if (!await validateServerPath(serverPath)) {
-        throw new AppError(`Não foi possivel encontrar ou a aplicação não tem permissão de executar o 'run.bat' no caminho: ${serverPath}`, 400)
+        throw new AppError(`Não foi possivel encontrar ou a aplicação não tem permissão de executar o 'run.bat' no caminho: ${serverPath}`, 400);
     }
     
     const child = spawn('cmd.exe', ['/c', 'run.bat'], {
@@ -18,7 +18,7 @@ const startWindowsServer = async (serverPath: string) => {
     });
 
     child.unref();
-}
+};
 
 const validateServerPath = async (serverPath: string): Promise<boolean> => {
     const batPath = path.join(serverPath, 'run.bat');
@@ -31,4 +31,4 @@ const validateServerPath = async (serverPath: string): Promise<boolean> => {
     }
 };
 
-export { startWindowsServer }
+export { startWindowsServer };

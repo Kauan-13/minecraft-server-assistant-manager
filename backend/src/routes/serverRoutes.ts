@@ -1,12 +1,8 @@
-import { Router, type Request } from 'express';
+import { Router } from 'express';
 import {checkAllServerStatus, checkServerStatus, startServer, stopServer, } from '../services/serverServices.js';
 import { ipGuard, tokenGuard } from '../middlewares/securityGuard.js';
 import type { User } from '../types/types.js';
 import { config } from '../config/index.js';
-
-interface RequestBody {
-    serverId: number;
-}
 
 const router = Router();
 
@@ -20,9 +16,9 @@ if (config.security.requireToken) {
     router.post('/stop', tokenGuard);
 }
 
-router.post('/start', async (req: Request<{}, {}, RequestBody>, res) => {
-    if (!req.body.serverId || typeof req.body.serverId !== "number") {
-        return res.status(400).json({ error: "O id do servidor deve ser um valor válido." });
+router.post('/start', async (req, res) => {
+    if (!req.body.serverId || typeof req.body.serverId !== 'number') {
+        return res.status(400).json({ error: 'O id do servidor deve ser um valor válido.' });
     }
 
     const result = await startServer(req.body.serverId, res.locals.user?.name);
@@ -30,8 +26,8 @@ router.post('/start', async (req: Request<{}, {}, RequestBody>, res) => {
 });
 
 router.post('/stop', async (req, res) => {
-    if (!req.body.serverId || typeof req.body.serverId !== "number") {
-        return res.status(400).json({ error: "O id do servidor deve ser um valor válido." });
+    if (!req.body.serverId || typeof req.body.serverId !== 'number') {
+        return res.status(400).json({ error: 'O id do servidor deve ser um valor válido.' });
     }
 
     const userAuthorized: User = res.locals.user;
@@ -47,12 +43,12 @@ router.get('/status', async (req, res) => {
 router.get('/status/:id', async (req, res) => {
     const id = Number(req.params.id);
 
-    if(!req.params.id || typeof id !== "number") {
-        return res.status(400).json({ error: "O id do servidor deve ser um valor válido." });
+    if(!req.params.id || typeof id !== 'number') {
+        return res.status(400).json({ error: 'O id do servidor deve ser um valor válido.' });
     }
 
     const result = await checkServerStatus(id);
     res.json(result);
 });
 
-export default router
+export default router;

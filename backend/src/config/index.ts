@@ -10,4 +10,4 @@ const env = {
     FRONTEND_URL: process.env.FRONTEND_URL
 };
 
-export { env, config }
+export { env, config };

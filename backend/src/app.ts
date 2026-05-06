@@ -23,7 +23,7 @@ const port = env.PORT || 3000;
 
 app.use(express.json());
 
-app.use(cors(corsOptions))
+app.use(cors(corsOptions));
 
 app.use(auditLog);
 
@@ -35,14 +35,14 @@ app.listen(port, () => {
     logger.info(`Servidor rodando em http://0.0.0.0:${port}`);
 
     if (!config.security.enableIpWhitelist) {
-        logger.warn("Verificação de IP está DESATIVADA!");
+        logger.warn('Verificação de IP está DESATIVADA!');
     }
     if (!config.security.requireToken) {
-        logger.warn("Verificação de TOKEN está DESATIVADA!");
+        logger.warn('Verificação de TOKEN está DESATIVADA!');
     }
 
     if (config.security.requireToken && !env.API_TOKEN) {
-        logger.error("ERRO CRÍTICO: 'requireToken' está ativo, mas API_TOKEN não foi definido no .env");
+        logger.error('ERRO CRÍTICO: \'requireToken\' está ativo, mas API_TOKEN não foi definido no .env');
         gracefulShutdown();
     }
 
@@ -56,14 +56,9 @@ app.listen(port, () => {
 const gracefulShutdown = async () => {
     logger.info('Finalizando processos...');
 
-    try {
-        await sendMessage("⚠️ O sistema foi desligado.");
-    } catch (err: any) {
-        logger.warn("Erro ao notificar:", err.message);
-    } finally {
-        process.exit(0);
-    }
-    
+    await sendMessage('⚠️ O sistema foi desligado.');
+   
+    process.exit(0);
 };
 
 process.stdin.resume();
