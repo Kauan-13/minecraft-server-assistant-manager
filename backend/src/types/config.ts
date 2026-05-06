@@ -15,7 +15,7 @@ interface SecurityConfig {
     enableIpWhitelist: boolean;
     requireToken: boolean;
     allowedUsers: AllowedUser[];
-    CorsURLs: string[];
+    corsURLs: string[];
 }
 
 interface IntegrationsConfig {
