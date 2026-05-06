@@ -2,10 +2,11 @@ import 'dotenv/config';
 import path from 'path';
 import fs from 'fs';
 import logger from '../utils/logger.js';
+import type { AppConfig } from '../types/config.js';
 
 const configPath = path.join(process.cwd(), 'config.json');
 
-let config;
+let config: AppConfig;
 
 try {
     const fileContent = fs.readFileSync(configPath, 'utf-8');
