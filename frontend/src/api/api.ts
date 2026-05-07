@@ -7,12 +7,12 @@ const api = axios.create({
 });
 
 const urlStatus = async (): Promise<Server[]> => {
-    const response = await api.get("/status");
+    const response = await api.get("/servers");
     return response.data;
 }
 
 const urlStart = async (serverId: number) => {
-    const response = await api.post("/start", {serverId:serverId}, {
+    const response = await api.post(`/servers/${serverId}/start`, {}, {
         headers: { 'x-api-token': localStorage.getItem("minecraft-api-token") }
     });
 
@@ -20,7 +20,7 @@ const urlStart = async (serverId: number) => {
 }
 
 const urlStop = async (serverId: number) => {
-    const response = await api.post("/stop", {serverId:serverId}, {
+    const response = await api.post(`/servers/${serverId}/stop`, {}, {
         headers: { 'x-api-token': localStorage.getItem("minecraft-api-token") }
     });
 
