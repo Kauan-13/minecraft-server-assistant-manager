@@ -1,4 +1,4 @@
-# inecraft Server Assistant Manager (MSAM)
+# Minecraft Server Assistant Manager (MSAM)
 
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/Kauan-13/minecraft-server-assistant-manager?style=for-the-badge)
 ![Status do CI](https://github.com/kauan-13/minecraft-server-assistant-manager/actions/workflows/ci.yml/badge.svg)
