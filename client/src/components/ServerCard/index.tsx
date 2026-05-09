@@ -8,6 +8,8 @@ import ServerStateButton from "../ServerStateButton";
 import { Separator } from "../ui/separator";
 import ServerPlayersAvatar from "../ServerPlayersAvatar";
 import { Users } from "lucide-react";
+import { useEffect } from "react";
+import { toast } from "sonner";
 
 type Props = {
     serverName: string,
@@ -25,6 +27,10 @@ const badgeColorMap: Record<ServerStatus, BadgeVariant> = {
 const ServerCard = (
     { serverName, serverStatus, serverPlayers, onClickStart, onClickStop, error = '092384' }: Props
 ) => {
+
+    useEffect(() => {
+        if (error) toast.error(`[${serverName}]: ${error}`)
+    }, [error])
 
     return (
         <Card>
