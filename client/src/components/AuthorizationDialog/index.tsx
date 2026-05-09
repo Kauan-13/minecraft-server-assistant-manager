@@ -55,10 +55,11 @@ const AuthorizationPopup = ({ onClose }: Props) => {
             </div>
 
             <DialogFooter>
-                <Button variant="outline" onClick={onClose}>
+                <Button className='w-1/2' variant="outline" onClick={onClose}>
                     Cancel
                 </Button>
                 <Button 
+                    className='w-1/2'
                     onClick={() => handleSubmit(token)} 
                     disabled={!token.trim()}
                 >
