@@ -30,7 +30,7 @@ const ServerCard = (
 
     useEffect(() => {
         if (error) toast.error(`[${serverName}]: ${error}`)
-    }, [error])
+    }, [serverName, error])
 
     return (
         <Card>

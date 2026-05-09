@@ -2,7 +2,7 @@ import { Box, Menu } from "lucide-react"
 import OptionButtons from "./OptionButtons"
 import { Drawer, DrawerTrigger, } from "@/components/ui/drawer"
 import DrawerOptions from "./DrawerOptions"
-import { TbBrandGithub } from "react-icons/tb"
+import { TbBrandGithub } from "react-icons/tb";
 import { Moon, Sun } from "lucide-react"
 import { Kbd } from "../ui/kbd"
 
