@@ -10,12 +10,12 @@ import ServerPlayersAvatar from "../ServerPlayersAvatar";
 import { Users } from "lucide-react";
 
 type Props = {
-    serverName?: string,
-    serverStatus?: ServerStatus,
-    serverPlayers?: Player[],
+    serverName: string,
+    serverStatus: ServerStatus,
+    serverPlayers: Player[],
     error?: string,
-    onClickStart?: () => void,
-    onClickStop?: () => void
+    onClickStart: () => void,
+    onClickStop: () => void
 }
 
 const badgeColorMap: Record<ServerStatus, BadgeVariant> = {
@@ -23,28 +23,10 @@ const badgeColorMap: Record<ServerStatus, BadgeVariant> = {
 }
 
 const ServerCard = (
-    {
-        serverName = 'Survival',
-        serverStatus = 'OFFLINE',
-        serverPlayers = [
-            { name: 'sioterino', raw: 'idk?' },
-            { name: 'kauan', raw: 'idk?' },
-            { name: 'tmarino', raw: 'idk?' },
-            { name: 'livia', raw: 'idk?' },
-            { name: 'julia', raw: 'idk?' },
-        ],
-        onClickStart = () => {
-            console.log('start')
-        },
-        onClickStop= () => {
-            console.log('stop')
-        },
-        // error = 'error'
-    }: Props
+    { serverName, serverStatus, serverPlayers, onClickStart, onClickStop, error = '092384' }: Props
 ) => {
 
     return (
-        // <Card className='max-w-[280px]'>
         <Card>
             <img
                 src={ placeholderImage }
@@ -66,6 +48,7 @@ const ServerCard = (
 
             <CardContent>
                 <ServerStateButton
+                    disabled={ Boolean(error) }
                     status={ serverStatus }
                     onClickStart={ onClickStart }
                     onClickStop={ onClickStop }

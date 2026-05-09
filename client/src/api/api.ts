@@ -1,3 +1,4 @@
+import axios from 'axios';
 import type { Server } from '../types/Server';
 const apiUrl = import.meta.env.VITE_API_URL;
 

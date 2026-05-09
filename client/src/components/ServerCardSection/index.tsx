@@ -3,38 +3,9 @@ import ServerCard from "../ServerCard";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import AuthorizationPopup from "../AuthorizationDialog";
 
-// Mock data for when useServer isn't ready
-const MOCK_SERVERS = [
-    {
-        id: 1,
-        name: "Survival",
-        status: "ONLINE" as const,
-        players: [
-            { name: "sioterino", raw: "idk?" },
-            { name: "kauan", raw: "idk?" },
-            { name: "tmarino", raw: "idk?" }
-        ]
-    },
-    {
-        id: 2,
-        name: "Creative",
-        status: "OFFLINE" as const,
-        players: []
-    },
-    {
-        id: 3,
-        name: "MiniGames",
-        status: "STARTING" as const,
-        players: [
-            { name: "player1", raw: "idk?" },
-            { name: "player2", raw: "idk?" }
-        ]
-    }
-];
-
 const CardSection = () => {
     const {
-        servers = MOCK_SERVERS,  // Use mock as fallback
+        servers,
         fetchStart, 
         fetchStop,
         error,

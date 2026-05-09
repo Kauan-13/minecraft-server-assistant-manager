@@ -7,26 +7,47 @@ import { Spinner } from "@/components/ui/spinner"
 import { Power, PowerOff } from "lucide-react"
 
 type Props = {
+    disabled: boolean
     status: ServerStatus
     onClickStart?: () => void,
     onClickStop?: () => void
 }
 
-const statusButtonMap: Record<ServerStatus, React.ReactNode> = {
-    OFFLINE: <Button>Start Server</Button>,
-    STARTING: <Button disabled>
-        <Spinner data-icon="inline-start" />
-        Starting Server
-    </Button>,
-    ONLINE: <Button variant='destructive'>Stop Server</Button>,
-    STOPPING: <Button variant='destructive' disabled>
-        <Spinner data-icon="inline-start" />
-        Stopping Server
-    </Button>,
-}
+const getStatusButtonMap = (disabled: boolean): Record<ServerStatus, React.ReactNode> => ({
+    OFFLINE: (
+        <Button disabled={disabled}>
+            Start Server
+        </Button>
+    ),
 
-const ServerStateButton = ({ status, onClickStart, onClickStop }: Props) => {
+    STARTING: (
+        <Button disabled>
+            <Spinner data-icon="inline-start" />
+            Starting Server
+        </Button>
+    ),
+
+    ONLINE: (
+        <Button
+            variant="destructive"
+            disabled={disabled}
+        >
+            Stop Server
+        </Button>
+    ),
+
+    STOPPING: (
+        <Button variant="destructive" disabled>
+            <Spinner data-icon="inline-start" />
+            Stopping Server
+        </Button>
+    ),
+})
+
+const ServerStateButton = ({ disabled, status, onClickStart, onClickStop }: Props) => {
     
+    const statusButtonMap = getStatusButtonMap(disabled)
+
     const getDialogContent = () => {
         if (status === 'OFFLINE')
             return {
