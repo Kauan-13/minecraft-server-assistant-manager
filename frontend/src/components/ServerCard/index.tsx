@@ -16,7 +16,7 @@ const ServerCard = ({bannerPath, serverName, serverStatus, serverPlayers, onClic
     return (
         <div className={style.serverCard}>
             <img 
-                src={`${apiUrl}${bannerPath}`} alt="" 
+                src={`${apiUrl}${bannerPath}`} alt="Server Banner" 
                 onError={(e) => {
                     (e.target as HTMLImageElement).src = '/server_background.jpg';
                 }}
@@ -36,7 +36,10 @@ const ServerCard = ({bannerPath, serverName, serverStatus, serverPlayers, onClic
                         <div className={style.playerList}>
                             {
                                 serverPlayers.map((player, index) => (
-                                    <p key={index}>{player.name}</p>
+                                    <div className={style.player}>
+                                        <img src={`${apiUrl}${player.avatar}`} alt="Player Avatar" />
+                                        <p key={index}>{player.name}</p>
+                                    </div>
                                 ))
                             }
                         </div>

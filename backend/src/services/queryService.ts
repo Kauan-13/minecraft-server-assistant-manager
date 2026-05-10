@@ -1,5 +1,5 @@
 import { GameDig } from 'gamedig';
-import type { Server, ServerStatus } from '../types/server.js';
+import type { Player, Server, ServerStatus } from '../types/server.js';
 import { stopServer } from './serverServices.js';
 import logger from '../utils/logger.js';
 import { config } from '../config/index.js';
@@ -65,8 +65,13 @@ setInterval(async () => {
                 currentInactiveTimestamp = null;
             }
 
+            const players: Player[] = state.players.map((player) => ({
+                name: player.name!,
+                avatar: `/players/${player.name}/avatar`
+            }));
+
             newServerStatus.status = 'ONLINE';
-            newServerStatus.players = state.players;
+            newServerStatus.players = players;
             newServerStatus.stoppingTimestamp = null;
             newServerStatus.inactiveTimestamp = currentInactiveTimestamp;
 
