@@ -2,7 +2,7 @@ type ServerStatus = "OFFLINE" | "STARTING" | "ONLINE" | "STOPPING";
 
 type Player = {
     name: string,
-    raw: unknown
+    avatar: string
 }
 
 interface Server{

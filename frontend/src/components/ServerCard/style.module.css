@@ -119,6 +119,18 @@
     padding: 2px;
 }
 
+.player {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.player img {
+    position: relative;
+    height: 16px;
+    width: 16px;
+}
+
 .statusLength:hover + .playerList {
     display: block;
 }
