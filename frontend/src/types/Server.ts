@@ -8,8 +8,7 @@ type Player = {
 interface Server{
     id: number;
     name: string;
-    path: string;
-    port: number;
+    bannerPath: string;
     status: ServerStatus;
     players: Player[];
 }

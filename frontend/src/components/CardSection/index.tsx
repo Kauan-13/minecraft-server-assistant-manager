@@ -20,7 +20,7 @@ const CardSection = () => {
                     servers.map((server, index) => (
                         <ServerCard 
                             key={index}
-                            serverId={server.id} 
+                            bannerPath={server.bannerPath} 
                             serverName={server.name} 
                             serverStatus={server.status}
                             serverPlayers={server.players}

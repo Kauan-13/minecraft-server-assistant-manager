@@ -3,7 +3,7 @@ import style from "./style.module.css";
 const apiUrl = import.meta.env.VITE_API_URL;
 
 interface Props {
-    serverId: number,
+    bannerPath: string,
     serverName: string,
     serverStatus: ServerStatus,
     serverPlayers: Player[],
@@ -12,11 +12,11 @@ interface Props {
     onClickStop: () => void
 }
 
-const ServerCard = ({serverId, serverName, serverStatus, serverPlayers, onClickStart, onClickStop, error}: Props) => {
+const ServerCard = ({bannerPath, serverName, serverStatus, serverPlayers, onClickStart, onClickStop, error}: Props) => {
     return (
         <div className={style.serverCard}>
             <img 
-                src={`${apiUrl}/servers/${serverId}/banner`} alt="" 
+                src={`${apiUrl}${bannerPath}`} alt="" 
                 onError={(e) => {
                     (e.target as HTMLImageElement).src = '/server_background.jpg';
                 }}
