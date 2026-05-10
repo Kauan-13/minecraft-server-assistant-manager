@@ -1,6 +1,9 @@
-import type { Player } from 'gamedig';
-
 type ServerStatus = 'OFFLINE' | 'STARTING' | 'ONLINE' | 'STOPPING';
+
+interface Player {
+    name: string,
+    avatar: string
+}
 
 interface Server {
     id: number;
@@ -21,4 +24,4 @@ interface ServerDTO {
     players: Player[];
 }
 
-export type { Server, ServerStatus, ServerDTO };
+export type { Server, ServerStatus, ServerDTO, Player };
