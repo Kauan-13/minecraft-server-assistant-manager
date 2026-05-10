@@ -6,6 +6,7 @@ import { startWindowsServer } from './processService.js';
 import { sendCommand } from './rconService.js';
 import logger from '../utils/logger.js';
 import { config } from '../config/index.js';
+import path from 'node:path';
 
 const startServer = async (serverId: number, userName: string) => {
     const server: Server | undefined = serverCache.get(serverId);
@@ -138,4 +139,16 @@ const checkAllServerStatus = async () => {
     return Array.from(serverCache.values());
 };
 
-export { startServer, checkServerStatus, checkAllServerStatus, stopServer };
+const getServerBanner = async (serverId: number) => {
+    const server = serverCache.get(serverId);
+
+    if (!server) {
+        throw new AppError('Servidor não encontrado', 404);
+    }
+
+    return path.join(server.path, 'banner.jpg');
+
+    
+};
+
+export { startServer, checkServerStatus, checkAllServerStatus, stopServer, getServerBanner };
