@@ -6,6 +6,7 @@ import { sendMessage } from './services/discordService.js';
 import { auditLog } from './middlewares/auditLog.js';
 import logger from './utils/logger.js';
 import { config, env } from './config/index.js';
+import playerRoutes from './routes/playerRoutes.js';
 
 process.on('uncaughtException', (err) => {
     logger.error('Houve um erro não tratado:', err);
@@ -27,7 +28,8 @@ app.use(cors(corsOptions));
 
 app.use(auditLog);
 
-app.use('/', serverRoutes);
+app.use('/servers', serverRoutes);
+app.use('/players', playerRoutes);
 
 app.use(errorMiddleware);
 

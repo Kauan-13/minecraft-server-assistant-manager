@@ -4,19 +4,19 @@ import { ipGuard, tokenGuard } from '../middlewares/securityGuard.js';
 import type { AllowedUser } from '../types/config.js';
 import { config } from '../config/index.js';
 
-const router = Router();
+const serverRouter = Router();
 
 if (config.security.enableIpWhitelist) {
-    router.use(ipGuard);
+    serverRouter.use(ipGuard);
 }
 
 if (config.security.requireToken) {
-    router.post('/servers/:id/start', tokenGuard);
+    serverRouter.post('/servers/:id/start', tokenGuard);
 
-    router.post('/servers/:id/stop', tokenGuard);
+    serverRouter.post('/servers/:id/stop', tokenGuard);
 }
 
-router.post('/servers/:id/start', async (req, res) => {
+serverRouter.post('/:id/start', async (req, res) => {
     const serverId = parseInt(req.params.id, 10);
 
     if (!serverId || typeof serverId !== 'number') {
@@ -27,7 +27,7 @@ router.post('/servers/:id/start', async (req, res) => {
     res.json(result);
 });
 
-router.post('/servers/:id/stop', async (req, res) => {
+serverRouter.post('/:id/stop', async (req, res) => {
     const serverId = parseInt(req.params.id, 10);
 
     if (!serverId || typeof serverId !== 'number') {
@@ -40,11 +40,11 @@ router.post('/servers/:id/stop', async (req, res) => {
     res.json(result);
 });
 
-router.get('/servers', async (req, res) => {
+serverRouter.get('/', async (req, res) => {
     res.json(await checkAllServerStatus());
 });
 
-router.get('/servers/:id', async (req, res) => {
+serverRouter.get('/:id', async (req, res) => {
     const id = Number(req.params.id);
 
     if(!req.params.id || typeof id !== 'number') {
@@ -55,7 +55,7 @@ router.get('/servers/:id', async (req, res) => {
     res.json(result);
 });
 
-router.get('/servers/:id/banner', async (req, res) => {
+serverRouter.get('/:id/banner', async (req, res) => {
     const id = Number(req.params.id);
 
     if(!req.params.id || typeof id !== 'number') {
@@ -71,10 +71,10 @@ router.get('/servers/:id/banner', async (req, res) => {
     });
 });
 
-router.use((req, res, _next) => {
+serverRouter.use((req, res, _next) => {
     res.status(404).json({
         error: 'Not Found'
     });
 });
 
-export default router;
+export default serverRouter;
