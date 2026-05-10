@@ -8,6 +8,8 @@
 ![Express](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white)
 ![Axios](https://img.shields.io/badge/Axios-5A29E4?style=for-the-badge&logo=axios&logoColor=white)
 ![Winston](https://img.shields.io/badge/Winston_Logs-gray?style=for-the-badge&logo=logstash&logoColor=white)
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=FFD62E)
 
 ## Motivação
 Este projeto nasceu para resolver um problema comum ao jogar Minecraft com amigos via VPN (como Radmin) que é a necessidade de do host sempre online. 
@@ -46,6 +48,29 @@ O arquivo `config.json` define como a aplicação deve se comportar.
 | `security.enableIpWhitelist` | `Boolean` | Ativa/Desativa a verificação de IP dos usuários. |
 | `security.requireToken` | `Boolean` | Exige o header `x-api-token` nas requisições. |
 
+### 3. Configurações de Servidor
+Para que a aplicação consiga se comunicar com o servidor de Minecraft, é necessário realizar as seguintes configurações:
+
+#### server.properties:
+
+No arquivo `server.properties` na pasta raiz do seu servidor faça as seguintes configurações:
+
+| Campo | Valor | Descrição
+| :--- | :--- | :--- |
+| enable-query | true | Permite que a aplicação leia o status do servidor.
+| enable-rcon | true | Permite que a aplicação envie comandos ao console do servidor.
+| query.port | mesmo valor de `server-port` | Porta para envio de queries. Por padrão, utiliza a mesma porta do jogo (25565).
+| rcon.password | SenhaForte | Sua senha do RCON, use uma senha forte.
+| rcon.port | `server-port` + 10 | Porta para comandos remotos. Certifique que a porta está Disponível |
+
+#### Personalização de Banner:
+
+Para que o servidor se apresente com uma imagem personalizada no painel da aplicação:
+
+1. Escolha uma imagem de sua preferência.
+1. Renomeie o arquivo para `banner.jpg`.
+1. Mova para a pasta raiz do servidor.
+
 ## Executar o Projeto
 
 ### Pré-requisitos
@@ -80,6 +105,7 @@ npm install
 **Backend:**
 ```bash
 cd backend
+npm run build
 npm run start
 ```
 
