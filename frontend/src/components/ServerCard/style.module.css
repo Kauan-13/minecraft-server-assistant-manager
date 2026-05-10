@@ -1,14 +1,22 @@
 .serverCard {
+    position: relative;
     height: 250px;
     width: 400px;
     background-color: var(--bg-secundary);
     padding: 10px;
-}
-
-.serverCardBackground {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+}
+
+.serverCard img {
+    position: absolute;
+    height: calc(100% - 20px);
+    width: calc(100% - 20px);
+    z-index: 1;
+}
+
+.serverCardBackground {
     height: 100%;
     width: 100%;
     background-image: url("../../assets/server_background.jpg");
@@ -24,6 +32,7 @@
     background-color: rgba(0, 0, 0, 0.5);
     color: white;
     user-select: none;
+    z-index: 2;
 }
 
 .error {
@@ -32,6 +41,7 @@
     color: white;
     box-sizing: border-box;
     padding: 0px 20px;
+    z-index: 2;
 }
 
 .buttons {
@@ -41,6 +51,7 @@
     align-items: end;
     justify-content: space-around;
     padding-bottom: 20px;
+    z-index: 2;
 }
 
 .serverCard button {

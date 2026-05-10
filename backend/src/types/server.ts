@@ -13,9 +13,12 @@ interface Server {
     inactiveTimestamp: number | null;
 }
 
-interface User {
-    name: string,
-    ips: string[]
+interface ServerDTO {
+    id: number;
+    name: string;
+    bannerPath: string;
+    status: ServerStatus;
+    players: Player[];
 }
 
-export type { Server, ServerStatus, User };
+export type { Server, ServerStatus, ServerDTO };

@@ -29,4 +29,4 @@ interface AppConfig {
     security: SecurityConfig;
 }
 
-export type { AppConfig };
+export type { AppConfig, AllowedUser };

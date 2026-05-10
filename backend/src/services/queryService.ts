@@ -1,5 +1,5 @@
 import { GameDig } from 'gamedig';
-import type { Server, ServerStatus } from '../types/types.js';
+import type { Server, ServerStatus } from '../types/server.js';
 import { stopServer } from './serverServices.js';
 import logger from '../utils/logger.js';
 import { config } from '../config/index.js';

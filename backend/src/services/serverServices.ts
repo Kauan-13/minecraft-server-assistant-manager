@@ -1,11 +1,12 @@
 import AppError from '../utils/AppError.js';
-import type { Server } from '../types/types.js';
+import type { Server, ServerDTO } from '../types/server.js';
 import { sendMessage } from './discordService.js';
 import { serverCache } from './queryService.js';
 import { startWindowsServer } from './processService.js';
 import { sendCommand } from './rconService.js';
 import logger from '../utils/logger.js';
 import { config } from '../config/index.js';
+import path from 'node:path';
 
 const startServer = async (serverId: number, userName: string) => {
     const server: Server | undefined = serverCache.get(serverId);
@@ -125,17 +126,35 @@ const stopServer = async (serverId: number, userName: string) => {
 };
 
 const checkServerStatus = async (serverId: number) => {
-    const server = config.servers.find(s => s.id == serverId);
+    const server = serverCache.get(serverId);
     
     if (!server) {
         throw new AppError('Servidor não encontrado', 404);
     }
 
-    return serverCache.get(serverId);
+    return toServerDTO(server);
 };
 
 const checkAllServerStatus = async () => {
-    return Array.from(serverCache.values());
+    return Array.from(serverCache.values()).map((server) => (toServerDTO(server)));
 };
 
-export { startServer, checkServerStatus, checkAllServerStatus, stopServer };
+const getServerBanner = async (serverId: number) => {
+    const server = serverCache.get(serverId);
+
+    if (!server) {
+        throw new AppError('Servidor não encontrado', 404);
+    }
+
+    return path.join(server.path, 'banner.jpg');
+};
+
+const toServerDTO = (server: Server): ServerDTO => ({
+    id: server.id,
+    name: server.name,
+    bannerPath: `/servers/${server.id}/banner`,
+    status: server.status,
+    players: server.players,
+});
+
+export { startServer, checkServerStatus, checkAllServerStatus, stopServer, getServerBanner };
