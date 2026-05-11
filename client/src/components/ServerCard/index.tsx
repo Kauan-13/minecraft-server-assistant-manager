@@ -10,8 +10,10 @@ import ServerPlayersAvatar from "../ServerPlayersAvatar";
 import { Users } from "lucide-react";
 import { useEffect } from "react";
 import { toast } from "sonner";
+const apiUrl = import.meta.env.VITE_API_URL;
 
 type Props = {
+    bannerPath: string,
     serverName: string,
     serverStatus: ServerStatus,
     serverPlayers: Player[],
@@ -25,22 +27,27 @@ const badgeColorMap: Record<ServerStatus, BadgeVariant> = {
 }
 
 const ServerCard = (
-    { serverName, serverStatus, serverPlayers, onClickStart, onClickStop, error = '092384' }: Props
+    { bannerPath, serverName, serverStatus, serverPlayers, onClickStart, onClickStop, error = '092384' }: Props
 ) => {
 
     useEffect(() => {
         if (error) toast.error(`[${serverName}]: ${error}`)
     }, [serverName, error])
 
+    // useEffect(() => console.log(bannerPath), [ bannerPath ])
+
     return (
         <Card>
             <img
-                src={ placeholderImage }
+                src={ `${apiUrl}${bannerPath}` }
                 alt="Server Profile Picture"
                 className={cn(
                     "relative z-20 aspect-video w-full object-cover brightness-80 dark:brightness-40",
                     serverStatus !== 'ONLINE' && "grayscale"
                 )}
+                onError={(e) => {
+                    (e.target as HTMLImageElement).src = placeholderImage
+                }}
             />
             <CardHeader className='flex justify-between'>
                 <div>
