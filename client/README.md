@@ -1,6 +1,6 @@
 ## Visão Geral
 
-Esta aplicação é uma reimplementação de um frontend React utilizando a biblioteca de componentes shadcn/ui, com foco em melhorar a experiência do usuário, consistência visual e feedback de ações críticas.
+Esta aplicação é uma reimplementação de um frontend React utilizando a biblioteca de componentes [shadcn/ui](https://ui.shadcn.com/), com foco em melhorar a experiência do usuário, consistência visual e feedback de ações críticas.
 
 Além da modernização da interface, o projeto adiciona funcionalidades importantes que não existiam na versão anterior, como:
 
@@ -16,7 +16,7 @@ Além da modernização da interface, o projeto adiciona funcionalidades importa
 ### Interface Moderna
 
 * Reimplementação completa da interface em React;
-* Componentes reutilizáveis com shadcn/ui;
+* Componentes reutilizáveis com [shadcn/ui](https://ui.shadcn.com/);
 * Layout responsivo;
 * Melhor padronização visual.
 
@@ -51,7 +51,7 @@ Sistema de notificações para:
 * React;
 * TypeScript;
 * Tailwind CSS;
-* shadcn/ui;
+* [shadcn/ui](https://ui.shadcn.com/);
 * Radix UI;
 * Lucide Icons;
 * React Icons;
