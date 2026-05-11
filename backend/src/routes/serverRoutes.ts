@@ -11,9 +11,9 @@ if (config.security.enableIpWhitelist) {
 }
 
 if (config.security.requireToken) {
-    serverRouter.post('/servers/:id/start', tokenGuard);
+    serverRouter.post('/:id/start', tokenGuard);
 
-    serverRouter.post('/servers/:id/stop', tokenGuard);
+    serverRouter.post('/:id/stop', tokenGuard);
 }
 
 serverRouter.post('/:id/start', async (req, res) => {
