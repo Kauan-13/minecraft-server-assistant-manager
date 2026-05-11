@@ -1,7 +1,0 @@
-.cardSection {
-    position: relative;
-    display: flex;
-    gap: 40px;
-    padding: 20px;
-    flex-wrap: wrap;
-}

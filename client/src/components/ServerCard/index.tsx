@@ -1,5 +1,5 @@
 import type { ApiError, Player, ServerStatus } from "../../types/Server";
-import placeholderImage from "../../assets/placeholder.jpg";
+import placeholderImage from "/placeholder.jpg";
 
 import { cn } from "@/lib/utils";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, } from "@/components/ui/card"

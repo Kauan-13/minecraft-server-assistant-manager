@@ -90,14 +90,14 @@ cd backend
 npm install
 ```
 
-**Frontend:**
+**Client:**
 ```bash
-cd frontend
+cd client
 npm install
 ```
 ### 2. Configuração de Ambiente
 
-1. Renomeie no diretório `backend` e `frontend` o arquivo .env.example para .env e preencha as suas credenciais e tokens.
+1. Renomeie no diretório `backend` e `client` o arquivo .env.example para .env e preencha as suas credenciais e tokens.
 
 1. Renomeie no diretório `backend` o arquivo config.example.json para config.json e estruture a lista de seus servidores e defina as regras de negócio.
 
@@ -109,9 +109,9 @@ npm run build
 npm run start
 ```
 
-**Frontend:**
+**Client:**
 ```bash
-cd frontend
+cd client
 npm run dev
 ```
 
@@ -120,7 +120,7 @@ npm run dev
 Para encerrar a aplicação com segurança:
 
 - **Backend:** No terminal em que a API está rodando, digite o comando `stop`. Isso garante que o sistema limpe os processos temporários antes de fechar.
-- **Frontend:** Pode ser encerrado utilizando o comando padrão `CTRL + C` no terminal correspondente.
+- **Client:** Pode ser encerrado utilizando o comando padrão `CTRL + C` no terminal correspondente.
 
 > [!IMPORTANT]
 > Encerrar o **MSAM** não interrompe a execução dos servidores de Minecraft que estiverem online. Para desligá-los, utilize a interface do frontend ou os comandos internos do jogo antes de fechar a aplicação.
