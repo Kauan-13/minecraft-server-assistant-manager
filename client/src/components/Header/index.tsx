@@ -8,18 +8,18 @@ import { Kbd } from "../ui/kbd"
 
 const Header = () => {
 
-    const info = {
+    const data = {
         repository: {
             icon: <TbBrandGithub />,
             url: 'https://github.com/Kauan-13/minecraft-server-assistant-manager',
-            tooltip: 'GitHub Repository'
+            tooltip: 'Repositório GitHub'
         },
         theme: {
             lightIcon: <Sun className='h-4 w-4 stroke-amber-400' />,
             darkIcon: <Moon className='h-4 w-4 stroke-indigo-400' />,
             tooltip: (
                 <span className="flex items-center gap-1">
-                    Theme <Kbd>D</Kbd>
+                    Tema <Kbd>D</Kbd>
                 </span>
             )
         }
@@ -32,15 +32,15 @@ const Header = () => {
                 <p className="font-semibold hidden md:block">Server Assistant Manager</p>
             </div>
 
-            <p className="text-muted-foreground text-center">Servers</p>
+            <p className="text-muted-foreground text-center">Servidores</p>
 
             <div className="flex justify-end mr-0 md:mr-13">
-                <OptionButtons info={ info } className='hidden md:block' />
+                <OptionButtons data={ data } className='hidden md:block' />
                 <Drawer>
                     <DrawerTrigger className='block md:hidden w-fit'>
                         <Menu />
                     </DrawerTrigger>
-                    <DrawerOptions info={ info } />
+                    <DrawerOptions data={ data } />
                 </Drawer>
             </div>
         </header>

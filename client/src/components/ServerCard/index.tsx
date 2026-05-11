@@ -1,4 +1,4 @@
-import type { Player, ServerStatus } from "../../types/Server";
+import type { ApiError, Player, ServerStatus } from "../../types/Server";
 import placeholderImage from "../../assets/placeholder.jpg";
 
 import { cn } from "@/lib/utils";
@@ -18,7 +18,9 @@ type Props = {
     serverName: string,
     serverStatus: ServerStatus,
     serverPlayers: Player[],
-    error?: string,
+    
+    error?: ApiError,
+
     onClickStart: () => void,
     onClickStop: () => void
 }
@@ -27,15 +29,11 @@ const badgeColorMap: Record<ServerStatus, BadgeVariant> = {
     OFFLINE: 'secondary', STARTING: 'yellow', STOPPING: 'red', ONLINE: 'green'
 }
 
-const ServerCard = (
-    { bannerPath, serverName, serverStatus, serverPlayers, onClickStart, onClickStop, error = '092384' }: Props
-) => {
+const ServerCard = ({ bannerPath, serverName, serverStatus, serverPlayers, onClickStart, onClickStop, error }: Props) => {
 
     useEffect(() => {
-        if (error) toast.error(`[${serverName}]: ${error}`)
-    }, [serverName, error])
-
-    // useEffect(() => console.log(bannerPath), [ bannerPath ])
+        if (error) toast.error(`[${error.serverName}]: ${error}`)
+    }, [ serverName, error ])
 
     return (
         <Card>
@@ -53,7 +51,7 @@ const ServerCard = (
             <CardHeader className='flex justify-between'>
                 <div>
                     <CardTitle>{ serverName }</CardTitle>
-                    <CardDescription>A Minecraft Server</CardDescription>
+                    <CardDescription>Um Servidor Minecraft</CardDescription>
                 </div>
                 <div className='flex gap-2'>
                     <Badge variant={ badgeColorMap[serverStatus] }>{  serverStatus }</Badge>
@@ -64,6 +62,7 @@ const ServerCard = (
                 <ServerStateButton
                     disabled={ Boolean(error) }
                     status={ serverStatus }
+                    name={ serverName }
                     onClickStart={ onClickStart }
                     onClickStop={ onClickStop }
                 />
@@ -88,7 +87,7 @@ const ServerCard = (
                     )
                     : (
                         <div className="flex w-full items-center justify-center py-2">
-                            <p className="text-sm text-muted-foreground">No players online</p>
+                            <p className="text-sm text-muted-foreground">Nenhum player online</p>
                         </div>
                     )
                 }

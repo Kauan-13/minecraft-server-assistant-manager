@@ -9,7 +9,7 @@ interface Props {
     onClose: () => void
 }
 
-const AuthorizationPopup = ({ onClose }: Props) => {
+const AuthorizationDialog = ({ onClose }: Props) => {
     const [ token, setToken ] = useState(localStorage.getItem('minecraft-api-token') || '');
 
     const handleSubmit = (token: string) => {
@@ -22,10 +22,10 @@ const AuthorizationPopup = ({ onClose }: Props) => {
             <DialogHeader>
                 <div className="flex items-center gap-2">
                     <KeyRound className="h-5 w-5 text-muted-foreground" />
-                    <DialogTitle>Authentication</DialogTitle>
+                    <DialogTitle>Autenticação</DialogTitle>
                 </div>
                 <DialogDescription>
-                    Please enter your Minecraft API token to continue.
+                    Por favor, insira o token da API para continuar.
                 </DialogDescription>
             </DialogHeader>
 
@@ -49,25 +49,25 @@ const AuthorizationPopup = ({ onClose }: Props) => {
                         autoFocus
                     />
                     <p className="text-xs text-muted-foreground">
-                        Your token will be stored securely in your browser.
+                        Seu token será armazenado com segurança no seu browser.
                     </p>
                 </div>
             </div>
 
             <DialogFooter>
                 <Button className='w-1/2' variant="outline" onClick={onClose}>
-                    Cancel
+                    Cancelar
                 </Button>
                 <Button 
                     className='w-1/2'
                     onClick={() => handleSubmit(token)} 
                     disabled={!token.trim()}
                 >
-                    Confirm
+                    Confirmar
                 </Button>
             </DialogFooter>
         </>
     )
 }
 
-export default AuthorizationPopup;
+export default AuthorizationDialog;

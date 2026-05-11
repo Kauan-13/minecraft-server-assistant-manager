@@ -9,6 +9,7 @@ import { Power, PowerOff } from "lucide-react"
 type Props = {
     disabled: boolean
     status: ServerStatus
+    name: string
     onClickStart?: () => void,
     onClickStop?: () => void
 }
@@ -16,14 +17,14 @@ type Props = {
 const getStatusButtonMap = (disabled: boolean): Record<ServerStatus, React.ReactNode> => ({
     OFFLINE: (
         <Button disabled={disabled}>
-            Start Server
+            Abrir Servidor
         </Button>
     ),
 
     STARTING: (
         <Button disabled>
             <Spinner data-icon="inline-start" />
-            Starting Server
+            Abrindo Servidor
         </Button>
     ),
 
@@ -32,19 +33,19 @@ const getStatusButtonMap = (disabled: boolean): Record<ServerStatus, React.React
             variant="destructive"
             disabled={disabled}
         >
-            Stop Server
+            Fechar Servidor
         </Button>
     ),
 
     STOPPING: (
         <Button variant="destructive" disabled>
             <Spinner data-icon="inline-start" />
-            Stopping Server
+            Fechando Servidor
         </Button>
     ),
 })
 
-const ServerStateButton = ({ disabled, status, onClickStart, onClickStop }: Props) => {
+const ServerStateButton = ({ disabled, status, name, onClickStart, onClickStop }: Props) => {
     
     const statusButtonMap = getStatusButtonMap(disabled)
 
@@ -53,10 +54,10 @@ const ServerStateButton = ({ disabled, status, onClickStart, onClickStop }: Prop
             return {
                 mediaClassName: '',
                 icon: <Power />,
-                title: "Start Server?",
-                description: "Are you sure you want to start this Minecraft server?",
+                title: "Abrir Servidor?",
+                description: `Tem certeza que deseja abrir o Servidor '${name}'?`,
                 actionVariant: 'default',
-                actionText: "Start Server",
+                actionText: "Abrir Servidor",
                 onAction: onClickStart
             }
         
@@ -64,10 +65,10 @@ const ServerStateButton = ({ disabled, status, onClickStart, onClickStop }: Prop
             return {
                 mediaClassName: 'bg-destructive/10 text-destructive dark:bg-destructive/20 dark:text-destructive',
                 icon: <PowerOff />,
-                title: "Stop Server?",
-                description: "Are you sure you want to stop this Minecraft server? This will kick all connected players.",
+                title: "Fechar Servidor?",
+                description: `Tem certeza que deseja fechar o Servidor '${name}'? Caso haja players online, essa ação não obterá êxito.`,
                 actionVariant: 'destructive',
-                actionText: "Stop Server",
+                actionText: "Fechar Servidor",
                 onAction: onClickStop
             }
         
@@ -98,7 +99,7 @@ const ServerStateButton = ({ disabled, status, onClickStart, onClickStop }: Prop
                 </AlertDialogHeader>
 
                 <AlertDialogFooter>
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogCancel>Cancelar</AlertDialogCancel>
                     <AlertDialogAction
                         variant={ dialogContent.actionVariant as buttonVariantTypes }
                         onClick={dialogContent.onAction}

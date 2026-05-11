@@ -1,3 +1,9 @@
+type ApiError = null | {
+    message: string,
+    status: number,
+    serverName: string,
+}
+
 type ServerStatus = "OFFLINE" | "STARTING" | "ONLINE" | "STOPPING";
 
 type Player = {
@@ -14,4 +20,4 @@ type Server = {
     players: Player[],
 }
 
-export type { Server, ServerStatus, Player }
+export type { ApiError, Server, ServerStatus, Player }

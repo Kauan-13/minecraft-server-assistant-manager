@@ -6,13 +6,13 @@ import type { JSX } from "react"
 
 type Props = {
     className?: string
-    info: {
+    data: {
         repository: { icon: JSX.Element, url: string, tooltip: string },
         theme: { lightIcon: JSX.Element, darkIcon: JSX.Element, tooltip: JSX.Element,  }
     }
 }
 
-const DrawerOptions = ({ info }: Props) => {
+const DrawerOptions = ({ data }: Props) => {
 
     const { theme, setTheme } = useTheme()
 
@@ -20,8 +20,8 @@ const DrawerOptions = ({ info }: Props) => {
         <DrawerContent>
 
             <DrawerHeader>
-                <DrawerTitle>Quick Actions</DrawerTitle>
-                <DrawerDescription>Repository access and appearance settings.</DrawerDescription>
+                <DrawerTitle>Ações Rápidas</DrawerTitle>
+                <DrawerDescription>Acesse o Repositório da aplicação ou mude o tema.</DrawerDescription>
             </DrawerHeader>
 
             <DrawerFooter>
@@ -31,9 +31,9 @@ const DrawerOptions = ({ info }: Props) => {
                         className='cursor-pointer w-1/2'
                         variant='outline'
                         size='lg'
-                        onClick={() => window.open(info.repository.url, '_blank')}
+                        onClick={() => window.open(data.repository.url, '_blank')}
                     >
-                        { info.repository.icon }
+                        { data.repository.icon }
                     </Button>
                     <Button
                         className='cursor-pointer w-1/2'
@@ -43,8 +43,8 @@ const DrawerOptions = ({ info }: Props) => {
                     >
                         {
                         theme === 'dark'
-                            ? info.theme.lightIcon
-                            : info.theme.darkIcon
+                            ? data.theme.lightIcon
+                            : data.theme.darkIcon
                         }
                     </Button>
                 </div>

@@ -6,13 +6,13 @@ import type { JSX } from "react";
 
 type Props = {
     className?: string
-    info: {
+    data: {
         repository: { icon: JSX.Element, url: string, tooltip: string },
         theme: { lightIcon: JSX.Element, darkIcon: JSX.Element, tooltip: JSX.Element,  }
     }
 }
 
-const OptionButtons = ({ info, className = '' }: Props) => {
+const OptionButtons = ({ data, className = '' }: Props) => {
 
     const { theme, setTheme } = useTheme()
 
@@ -25,12 +25,12 @@ const OptionButtons = ({ info, className = '' }: Props) => {
                             className='cursor-pointer'
                             variant='outline'
                             size='lg'
-                            onClick={() => window.open(info.repository.url, '_blank')}
+                            onClick={() => window.open(data.repository.url, '_blank')}
                         >
-                            { info.repository.icon }
+                            { data.repository.icon }
                         </Button>
                     </TooltipTrigger>
-                    <TooltipContent>{ info.repository.tooltip }</TooltipContent>
+                    <TooltipContent>{ data.repository.tooltip }</TooltipContent>
                 </Tooltip>
                 <Tooltip>
                     <TooltipTrigger asChild>
@@ -42,12 +42,12 @@ const OptionButtons = ({ info, className = '' }: Props) => {
                         >
                             {
                             theme === 'dark'
-                                ? info.theme.lightIcon
-                                : info.theme.darkIcon
+                                ? data.theme.lightIcon
+                                : data.theme.darkIcon
                             }
                         </Button>
                     </TooltipTrigger>
-                    <TooltipContent>{ info.theme.tooltip }</TooltipContent>
+                    <TooltipContent>{ data.theme.tooltip }</TooltipContent>
                 </Tooltip>
             </ButtonGroup>
         </div>

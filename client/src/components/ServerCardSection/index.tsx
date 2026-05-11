@@ -1,7 +1,7 @@
 import useServer from '../../hooks/useServer';
 import ServerCard from "../ServerCard";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import AuthorizationPopup from "../AuthorizationDialog";
+import AuthorizationDialog from "../AuthorizationDialog";
 
 const CardSection = () => {
     const {
@@ -9,8 +9,8 @@ const CardSection = () => {
         fetchStart, 
         fetchStop,
         error,
-        isErrorPopupOpen,
-        setIsErrorPopupOpen
+        isErrorDialogOpen,
+        setIsErrorDialogOpen
     } = useServer();
 
     return (
@@ -20,11 +20,14 @@ const CardSection = () => {
                     servers && servers.map((server, index) => (
                         <ServerCard 
                             key={ index }
+                            
                             bannerPath={ server.bannerPath } 
                             serverName={ server.name } 
                             serverStatus={ server.status }
                             serverPlayers={ server.players }
-                            error={ error?.message && error.serverName == server.name ? error?.message : ""  } 
+
+                            error={ error }
+
                             onClickStart={ () => fetchStart(server.id, server.name) }
                             onClickStop={ () => fetchStop(server.id, server.name) }
                         />
@@ -32,9 +35,9 @@ const CardSection = () => {
                 }
             </section>
             
-            <Dialog open={isErrorPopupOpen} onOpenChange={setIsErrorPopupOpen}>
+            <Dialog open={isErrorDialogOpen} onOpenChange={setIsErrorDialogOpen}>
                 <DialogContent className="sm:max-w-md">
-                    <AuthorizationPopup onClose={() => setIsErrorPopupOpen(false)}/>
+                    <AuthorizationDialog onClose={() => setIsErrorDialogOpen(false)}/>
                 </DialogContent>
             </Dialog>
         </>
