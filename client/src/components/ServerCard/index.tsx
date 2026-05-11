@@ -32,8 +32,13 @@ const badgeColorMap: Record<ServerStatus, BadgeVariant> = {
 const ServerCard = ({ bannerPath, serverName, serverStatus, serverPlayers, onClickStart, onClickStop, error }: Props) => {
 
     useEffect(() => {
-        if (error) toast.error(`[${error.serverName}]: ${error}`)
-    }, [ serverName, error ])
+        if (!error) return
+
+        toast.error(
+            `[${error.serverName}]: ${error.message}`,
+            { id: `${error.serverName}-${error.message}` }
+        )
+    }, [error])
 
     return (
         <Card>

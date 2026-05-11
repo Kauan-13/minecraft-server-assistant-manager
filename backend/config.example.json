@@ -7,7 +7,7 @@
         {
             "id": 1,
             "name": "Mundo 1",
-            "path": "E:/MinecraftServer/",
+            "path": "C:/MinecraftServer/",
             "port": 25565,
             "rconPort": 25575
         }

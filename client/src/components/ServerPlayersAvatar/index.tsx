@@ -61,9 +61,9 @@ const ServerPlayersAvatar = ({ players = [] }: Props) => {
         <AvatarGroup>
             {
                 DISPLAYED_PLAYERS.map((player, index) => (
-                    <Tooltip>
+                    <Tooltip key={ index }>
                         <TooltipTrigger>
-                            <Avatar key={ index }>
+                            <Avatar>
                                 <AvatarImage src={ `${apiUrl}${player.avatar}` } alt={ player.name } />
                                 <AvatarFallback className={ playerColors[index]?.color }>
                                     { getInitial(player.name) }
