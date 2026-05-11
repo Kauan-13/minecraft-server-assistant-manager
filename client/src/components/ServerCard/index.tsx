@@ -10,6 +10,7 @@ import ServerPlayersAvatar from "../ServerPlayersAvatar";
 import { Users } from "lucide-react";
 import { useEffect } from "react";
 import { toast } from "sonner";
+
 const apiUrl = import.meta.env.VITE_API_URL;
 
 type Props = {

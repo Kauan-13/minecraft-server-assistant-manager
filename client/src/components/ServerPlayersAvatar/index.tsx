@@ -1,8 +1,10 @@
-import { Avatar, AvatarFallback, AvatarGroup, AvatarGroupCount } from "@/components/ui/avatar"
+import { Avatar, AvatarFallback, AvatarGroup, AvatarGroupCount, AvatarImage } from "@/components/ui/avatar"
 import { Tooltip, TooltipContent, TooltipTrigger, } from "@/components/ui/tooltip"
 
 import type { Player } from "../../types/Server"
 import { useMemo } from "react"
+
+const apiUrl = import.meta.env.VITE_API_URL;
 
 type Props = {
     players?: Player[]
@@ -62,7 +64,7 @@ const ServerPlayersAvatar = ({ players = [] }: Props) => {
                     <Tooltip>
                         <TooltipTrigger>
                             <Avatar key={ index }>
-                                {/* <AvatarImage src={ } alt={ player.name } /> */}
+                                <AvatarImage src={ `${apiUrl}${player.avatar}` } alt={ player.name } />
                                 <AvatarFallback className={ playerColors[index]?.color }>
                                     { getInitial(player.name) }
                                 </AvatarFallback>
