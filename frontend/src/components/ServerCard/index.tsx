@@ -36,7 +36,7 @@ const ServerCard = ({bannerPath, serverName, serverStatus, serverPlayers, onClic
                         <div className={style.playerList}>
                             {
                                 serverPlayers.map((player, index) => (
-                                    <div className={style.player}>
+                                    <div key={index} className={style.player}>
                                         <img src={`${apiUrl}${player.avatar}`} alt="Player Avatar" />
                                         <p key={index}>{player.name}</p>
                                     </div>
