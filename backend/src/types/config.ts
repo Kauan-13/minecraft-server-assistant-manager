@@ -4,6 +4,15 @@ interface ServerConfig {
     path: string;
     port: number;
     rconPort: number;
+    startup: StartupConfig;
+}
+
+interface StartupConfig {
+    execType: 'jar' | 'bat';
+    targetFile: string;
+    javaPath: string;
+    minRam: string;     
+    maxRam: string;
 }
 
 interface AllowedUser {
@@ -29,4 +38,4 @@ interface AppConfig {
     security: SecurityConfig;
 }
 
-export type { AppConfig, AllowedUser };
+export type { AppConfig, AllowedUser, ServerConfig };

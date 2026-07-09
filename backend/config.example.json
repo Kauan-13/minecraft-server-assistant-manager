@@ -6,10 +6,28 @@
     "servers": [
         {
             "id": 1,
-            "name": "Mundo 1",
+            "name": "Mundo 1 (Moderno)",
             "path": "C:/MinecraftServer/",
             "port": 25565,
-            "rconPort": 25575
+            "rconPort": 25575,
+            "startup": {
+                "execType": "jar",
+                "targetFile": "server.jar",
+                "javaPath": "C:/Program Files/Java/jdk-21/bin/java.exe",
+                "minRam": "2G",
+                "maxRam": "4G"
+            }
+        },
+        {
+            "id": 2,
+            "name": "Mundo 2 (Antigo com Bat)",
+            "path": "C:/MinecraftServerOld/",
+            "port": 25566,
+            "rconPort": 25576,
+            "startup": {
+                "execType": "bat",
+                "targetFile": "run.bat"
+            }
         }
     ],
     "security": {
