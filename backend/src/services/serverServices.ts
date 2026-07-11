@@ -53,13 +53,23 @@ const startServer = async (serverId: number, userName: string) => {
     };
 
     try {
-        const fileExtension = path.extname(startup.targetFile).toLowerCase();
+        let targetFile;
 
         if (startup.execType === 'bat') {
-            const targetFile = fileExtension === '.bat' ? startup.targetFile : 'run.bat';
+            if (startup.targetFile && path.extname(startup.targetFile).toLowerCase() === '.bat') {
+                targetFile = startup.targetFile;
+            } else {
+                targetFile = 'run.bat';
+            }
+
             await startWindowsServer(server.path, targetFile);
         } else {
-            const targetFile = fileExtension === '.jar' ? startup.targetFile : 'server.jar';
+            if (startup.targetFile && path.extname(startup.targetFile).toLowerCase() === '.jar') {
+                targetFile = startup.targetFile;
+            } else {
+                targetFile = 'server.jar';
+            }
+
             await startJarServer(
                 server.path,
                 startup.javaPath || 'java',

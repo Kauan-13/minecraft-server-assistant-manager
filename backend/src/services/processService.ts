@@ -10,9 +10,9 @@ const startWindowsServer = async (serverPath: string, batName: string = 'run.bat
     if (!await validateServerPath(batPath)) {
         throw new AppError(`Não foi possivel encontrar ou a aplicação não tem permissão de executar o 'run.bat' no caminho: ${serverPath}`, 400);
     }
-    
-    const child = spawn('cmd.exe', ['/c', 'run.bat'], {
-        cwd: serverPath,   
+
+    const child = spawn('cmd.exe', ['/c', batName], {
+        cwd: serverPath,
     });
 
     child.on('error', (err) => {
@@ -21,7 +21,7 @@ const startWindowsServer = async (serverPath: string, batName: string = 'run.bat
 
     child.unref();
 
-    logger.info('Executando servidor com .bat');
+    logger.info(`Executando servidor com ${batName}`);
 };
 
 const startJarServer = async (serverPath: string, javaBinary: string = 'java', jarName: string = 'server.jar', minRam: string = '1G', maxRam: string = '2G') => {
@@ -53,7 +53,7 @@ const startJarServer = async (serverPath: string, javaBinary: string = 'java', j
 
     child.unref();
 
-    logger.info('Executando servidor com .jar');
+    logger.info(`Executando servidor com ${jarName}`);
 };
 
 const validateServerPath = async (serverPath: string): Promise<boolean> => {
