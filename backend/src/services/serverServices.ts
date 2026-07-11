@@ -2,16 +2,18 @@ import AppError from '../utils/AppError.js';
 import type { Server, ServerDTO } from '../types/server.js';
 import { sendMessage } from './discordService.js';
 import { serverCache } from './queryService.js';
-import { startWindowsServer } from './processService.js';
+import { startJarServer, startWindowsServer } from './processService.js';
 import { sendCommand } from './rconService.js';
 import logger from '../utils/logger.js';
 import { config } from '../config/index.js';
 import path from 'node:path';
+import type { ServerConfig } from '../types/config.js';
 
 const startServer = async (serverId: number, userName: string) => {
     const server: Server | undefined = serverCache.get(serverId);
+    const serverConfig: ServerConfig | undefined = config.servers.find(server => server.id === serverId);
 
-    if (!server) {
+    if (!server || !serverConfig) {
         logger.warn('Tentativa de start em servidor inexistente', {
             context: 'SERVER_CONTROL',
             attemptedId: serverId, 
@@ -39,17 +41,54 @@ const startServer = async (serverId: number, userName: string) => {
         throw new AppError(`Limite atingido. Servidores ativos: ${serverNames}`, 409);
     }
 
-    await startWindowsServer(server.path);
+    server.status = 'STARTING';
+    serverCache.set(serverId, server);
+    
+    const startup = serverConfig.startup ?? {
+        execType: 'jar',
+        targetFile: 'server.jar',
+        javaPath: 'java',
+        minRam: '1G',
+        maxRam: '2G'
+    };
+
+    try {
+        let targetFile;
+
+        if (startup.execType === 'bat') {
+            if (startup.targetFile && path.extname(startup.targetFile).toLowerCase() === '.bat') {
+                targetFile = startup.targetFile;
+            } else {
+                targetFile = 'run.bat';
+            }
+
+            await startWindowsServer(server.path, targetFile);
+        } else {
+            if (startup.targetFile && path.extname(startup.targetFile).toLowerCase() === '.jar') {
+                targetFile = startup.targetFile;
+            } else {
+                targetFile = 'server.jar';
+            }
+
+            await startJarServer(
+                server.path,
+                startup.javaPath || 'java',
+                targetFile,
+                startup.minRam || '1G',
+                startup.maxRam || '2G'
+            );
+        }
+    } catch (error) {
+        server.status = 'OFFLINE';
+        serverCache.set(serverId, server);
+        throw error;
+    }
 
     logger.info('Comando START recebido', { 
         serverId: server.id, 
         serverName: server.name,
         user: userName || 'Desconhecido'
     });
-
-    server.status = 'STARTING';
-
-    serverCache.set(serverId, server);
 
     sendMessage(`${userName} iniciou o ${server.name}`);
     
