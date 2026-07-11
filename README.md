@@ -44,9 +44,25 @@ O arquivo `config.json` define como a aplicação deve se comportar.
 | :--- | :--- | :--- |
 | `maxConcurrentServers` | `Integer` | Limite de servidores que podem rodar simultaneamente. |
 | `enableDiscord` | `Boolean` | Ativa/Desativa a integração com o Discord. |
-| `servers` | `Array` | Lista contendo `id`, `name`, `path`, `port` e `rconPort`. |
+| `servers` | `Array` | Lista contendo `id`, `name`, `path`, `port`, `rconPort` e `startup`. |
 | `security.enableIpWhitelist` | `Boolean` | Ativa/Desativa a verificação de IP dos usuários. |
 | `security.requireToken` | `Boolean` | Exige o header `x-api-token` nas requisições. |
+
+#### Configurações de Inicialização (`servers[].startup`)
+Dentro de cada servidor na lista `servers`, você pode customizar o comportamento de inicialização através do objeto `startup`:
+
+| Campo | Tipo | Padrão | Descrição |
+| :--- | :--- | :--- | :--- |
+| `execType` | `String` | `"jar"` | Define a estratégia de execução. Aceita estritamente `"jar"` ou `"bat"`. |
+| `targetFile` | `String` | `"server.jar"` / `"run.bat"` | Nome do arquivo executável. Deve corresponder à extensão do `execType`. |
+| `javaPath` | `String` | `"java"` | Caminho absoluto do binário do Java (útil para servidores que exigem versões específicas). *Ignorado em modo .bat*|
+| `minRam` | `String` | `"1G"` | Quantidade mínima de memória RAM alocada (Ex: `"1G"`, `"512M"`). *Ignorado em modo .bat* |
+| `maxRam` | `String` | `"2G"` | Quantidade máxima de memória RAM alocada (Ex: `"4G"`). *Ignorado em modo .bat* |
+
+> [!NOTE]
+> O objeto `startup` é **totalmente opcional**. Caso ele não seja configurado (ou possua campos ausentes/inválidos), a aplicação aplicará regras automáticas de *fallback*:
+> - Se o `execType` for inválido ou omitido, o sistema assumirá o modo `"jar"` executando o arquivo `server.jar` com as configurações de memória padrão (`1G`/`2G`).
+> - Se houver um conflito de extensão (ex: definir tipo `"jar"` mas apontar para um arquivo `.bat`), o sistema corrigirá dinamicamente o arquivo para o padrão seguro daquela categoria em tempo de execução para evitar quebras.
 
 ### 3. Configurações de Servidor
 Para que a aplicação consiga se comunicar com o servidor de Minecraft, é necessário realizar as seguintes configurações:
@@ -126,9 +142,8 @@ Para encerrar a aplicação com segurança:
 > Encerrar o **MSAM** não interrompe a execução dos servidores de Minecraft que estiverem online. Para desligá-los, utilize a interface do frontend ou os comandos internos do jogo antes de fechar a aplicação.
 
 ## Limitações
-* **Sistema Operacional:** Compatível apenas com **Windows** (dependência de scripts `.bat` para inicialização).
-* **Conectividade:** Projetado para uso em redes VPN como `Radmin VPN`.
-* **RCON:** Essencial que os servidores de Minecraft estejam com o protocolo RCON habilitado para o desligamento seguro.
+- **Conectividade:** Projetado para uso em redes VPN como `Radmin VPN`.
+- **RCON:** Essencial que os servidores de Minecraft estejam com o protocolo RCON habilitado para o desligamento seguro.
 
 ## Próximos Passos
 Este projeto está em constante evolução. Confira o planejamento para próximas versões na aba de [Issues](https://github.com/Kauan-13/minecraft-server-assistant-manager/issues).
