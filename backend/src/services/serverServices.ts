@@ -56,10 +56,10 @@ const startServer = async (serverId: number, userName: string) => {
         const fileExtension = path.extname(startup.targetFile).toLowerCase();
 
         if (startup.execType === 'bat') {
-            const targetFile = fileExtension === '.bat' ? startup.targetFile : 'run.bat'
+            const targetFile = fileExtension === '.bat' ? startup.targetFile : 'run.bat';
             await startWindowsServer(server.path, targetFile);
         } else {
-            const targetFile = fileExtension === '.jar' ? startup.targetFile : 'server.jar'
+            const targetFile = fileExtension === '.jar' ? startup.targetFile : 'server.jar';
             await startJarServer(
                 server.path,
                 startup.javaPath || 'java',

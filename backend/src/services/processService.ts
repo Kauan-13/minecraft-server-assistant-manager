@@ -21,14 +21,14 @@ const startWindowsServer = async (serverPath: string, batName: string = 'run.bat
 
     child.unref();
 
-    logger.info(`Executando servidor com .bat`);
+    logger.info('Executando servidor com .bat');
 };
 
 const startJarServer = async (serverPath: string, javaBinary: string = 'java', jarName: string = 'server.jar', minRam: string = '1G', maxRam: string = '2G') => {
     const jarPath = path.join(serverPath, jarName);
     
     if (!isJavaInstalled(javaBinary)) {
-        throw new AppError("O Java não está instalado neste computador. Não é possível iniciar o servidor .jar.", 500);
+        throw new AppError('O Java não está instalado neste computador. Não é possível iniciar o servidor .jar.', 500);
     }
 
     if (!await validateServerPath(jarPath)) { 
@@ -53,7 +53,7 @@ const startJarServer = async (serverPath: string, javaBinary: string = 'java', j
 
     child.unref();
 
-    logger.info(`Executando servidor com .jar`);
+    logger.info('Executando servidor com .jar');
 };
 
 const validateServerPath = async (serverPath: string): Promise<boolean> => {
@@ -69,7 +69,7 @@ const isJavaInstalled = (javaBinary: string): boolean => {
     try {
         execSync(javaBinary + ' -version', { stdio: 'ignore' });
         return true;
-    } catch (error) {
+    } catch {
         return false;
     }
 };
