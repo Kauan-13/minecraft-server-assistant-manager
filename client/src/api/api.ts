@@ -1,6 +1,7 @@
 import axios from 'axios';
 import type { Server } from '../types/Server';
-const apiUrl = import.meta.env.VITE_API_URL;
+
+const apiUrl = `http://${window.location.hostname}:${import.meta.env.VITE_API_PORT}`;
 
 const api = axios.create({
     baseURL: apiUrl,
@@ -27,4 +28,4 @@ const urlStop = async (serverId: number) => {
     return response.data;
 }
 
-export { urlStatus, urlStart, urlStop }
+export { urlStatus, urlStart, urlStop, apiUrl }
