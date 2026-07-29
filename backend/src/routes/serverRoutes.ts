@@ -64,11 +64,11 @@ serverRouter.get('/:id/banner', async (req, res) => {
 
     const result = await getServerBanner(id);
     
-    res.sendFile(result, (err) => {
-        if (err) {
-            res.status(404).send('Banner não disponível');
-        }
-    });
+    if (result != null) {
+        return res.sendFile(result);
+    }
+
+    return res.sendStatus(404);
 });
 
 serverRouter.use((req, res, _next) => {
