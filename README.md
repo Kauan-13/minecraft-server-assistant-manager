@@ -83,9 +83,13 @@ No arquivo `server.properties` na pasta raiz do seu servidor faça as seguintes 
 
 Para que o servidor se apresente com uma imagem personalizada no painel da aplicação:
 
-1. Escolha uma imagem de sua preferência.
-1. Renomeie o arquivo para `banner.jpg`.
-1. Mova para a pasta raiz do servidor.
+1. Escolha uma imagem de sua preferência nos formatos **PNG, JPG, JPEG, WEBP ou GIF**.
+2. Renomeie o arquivo para `banner` com a extensão correspondente (ex: `banner.png`, `banner.jpg`).
+3. Mova o arquivo para a pasta raiz do servidor.
+
+> [!NOTE]
+> Caso existam múltiplas imagens na pasta raiz do servidor, o sistema adotará a seguinte ordem de prioridade para a exibição:  
+> **1º** `banner.png` ➔ **2º** `banner.jpg` ➔ **3º** `banner.jpeg` ➔ **4º** `banner.webp` ➔ **5º** `banner.gif`
 
 ## Executar o Projeto
 
