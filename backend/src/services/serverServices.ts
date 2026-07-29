@@ -8,6 +8,7 @@ import logger from '../utils/logger.js';
 import { config } from '../config/index.js';
 import path from 'node:path';
 import type { ServerConfig } from '../types/config.js';
+import fs from 'fs';
 
 const startServer = async (serverId: number, userName: string) => {
     const server: Server | undefined = serverCache.get(serverId);
@@ -179,13 +180,21 @@ const checkAllServerStatus = async () => {
 };
 
 const getServerBanner = async (serverId: number) => {
+    const ALLOWED_EXTENSIONS = ['png', 'jpg', 'jpeg', 'webp', 'gif'];
+
     const server = serverCache.get(serverId);
 
     if (!server) {
         throw new AppError('Servidor não encontrado', 404);
     }
 
-    return path.join(server.path, 'banner.jpg');
+    for(const ext of ALLOWED_EXTENSIONS) {
+        if (fs.existsSync(path.join(server.path, `banner.${ext}`))) {
+            return path.join(server.path, `banner.${ext}`);
+        }
+    }
+
+    return null;
 };
 
 const toServerDTO = (server: Server): ServerDTO => ({
