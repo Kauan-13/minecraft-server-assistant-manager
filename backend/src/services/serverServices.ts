@@ -9,6 +9,7 @@ import { config } from '../config/index.js';
 import path from 'node:path';
 import type { ServerConfig } from '../types/config.js';
 import fs from 'fs';
+import { createBackup } from './backupService.js';
 
 const startServer = async (serverId: number, userName: string) => {
     const server: Server | undefined = serverCache.get(serverId);
@@ -140,6 +141,10 @@ const stopServer = async (serverId: number, userName: string) => {
 
     try {
         await sendCommand(config.servers.find(s => s.id == serverId)!.rconPort, 'stop');
+
+        // console.log("teste");
+
+        // await createBackup(server.path);
 
         server.status = 'STOPPING';
         server.stoppingTimestamp = Date.now();
