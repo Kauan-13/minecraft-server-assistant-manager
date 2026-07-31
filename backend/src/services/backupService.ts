@@ -22,13 +22,21 @@ const createBackup = async (serverPath: string, maxBackups: number) => {
         const fileName = `backup_${timestamp}.zip`;
         const outputPath = path.join(backupDir, fileName);
 
+        logger.info('Criando backup', {
+            context: 'BACKUP',
+            backupPath: path.join(backupDir, fileName)
+        });
+        
         const zip = new AdmZip();
 
         zip.addLocalFolder(sourceDir, '');
 
         await zip.writeZipPromise(outputPath);
         
-        console.log(`Backup criado com sucesso: ${fileName}`);
+        logger.info('Backup criado com sucesso', {
+            context: 'BACKUP',
+            backupPath: path.join(backupDir, fileName)
+        });
 
         await rotateBackups(backupDir, maxBackups);
     } catch (err) {
