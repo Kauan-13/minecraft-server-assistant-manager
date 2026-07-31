@@ -5,6 +5,7 @@ interface ServerConfig {
     port: number;
     rconPort: number;
     startup: StartupConfig;
+    maxBackups: number
 }
 
 interface StartupConfig {

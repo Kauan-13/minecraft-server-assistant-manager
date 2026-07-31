@@ -9,7 +9,7 @@ interface BackupFile {
     mtime: number;
 }
 
-const createBackup = async (serverPath: string) => {
+const createBackup = async (serverPath: string, maxBackups: number) => {
     try {
         const backupDir = path.join(serverPath,'backups');
         const sourceDir = path.join(serverPath,'world');
@@ -30,7 +30,7 @@ const createBackup = async (serverPath: string) => {
         
         console.log(`Backup criado com sucesso: ${fileName}`);
 
-        await rotateBackups(backupDir, 5);
+        await rotateBackups(backupDir, maxBackups);
     } catch (err) {
         logger.warn('Erro ao criar backup do servidor.', {
             context: 'BACKUP',

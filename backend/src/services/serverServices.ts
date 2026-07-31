@@ -154,11 +154,14 @@ const stopServer = async (serverId: number, userName: string) => {
 
         await setTimeout(5000);
 
-        // updateServerStatus(server, 'SAVING');
-
-        // await createBackup(server.path);
-
-        updateServerStatus(server, 'OFFLINE');
+        if (config.servers.find(s => s.id == serverId)!.maxBackups && config.servers.find(s => s.id == serverId)!.maxBackups > 0) {
+            updateServerStatus(server, 'SAVING');
+            await createBackup(server.path, config.servers.find(s => s.id == serverId)!.maxBackups);
+            updateServerStatus(server, 'OFFLINE');
+        } else {
+            updateServerStatus(server, 'OFFLINE');
+        }
+        
     } catch (err) {
         logger.warn(`Erro ao conectar no RCON. O servidor talvez já esteja offline. ${err}`, {
             context: 'SERVER_CONTROL',
