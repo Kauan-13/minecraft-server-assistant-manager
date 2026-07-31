@@ -1,4 +1,4 @@
-type ServerStatus = 'OFFLINE' | 'STARTING' | 'ONLINE' | 'STOPPING';
+type ServerStatus = 'OFFLINE' | 'STARTING' | 'ONLINE' | 'STOPPING' | 'SAVING';
 
 interface Player {
     name: string,
@@ -12,7 +12,6 @@ interface Server {
     port: number;
     status: ServerStatus;
     players: Player[];
-    stoppingTimestamp: number | null;
     inactiveTimestamp: number | null;
 }
 

@@ -16,18 +16,11 @@ setInterval(async () => {
                 path: server.path,
                 status: 'OFFLINE', 
                 players: [],
-                stoppingTimestamp: null,
                 inactiveTimestamp: null
         };
 
         if (cached) {
             newServerStatus = { ...cached };
-        }
-
-        // Mantenho o status STOPPING por 1 minuto para dar tempo de criar backup e fechar corretamente antes de alguém tentar abrir o servidor de novo
-        if (newServerStatus.stoppingTimestamp && Math.abs(newServerStatus.stoppingTimestamp - Date.now()) < 60000) {
-            newServerStatus.inactiveTimestamp = null;
-            continue;
         }
 
         try {
@@ -72,15 +65,13 @@ setInterval(async () => {
 
             newServerStatus.status = 'ONLINE';
             newServerStatus.players = players;
-            newServerStatus.stoppingTimestamp = null;
             newServerStatus.inactiveTimestamp = currentInactiveTimestamp;
 
             serverCache.set(server.id, newServerStatus);
         } catch {
-            const newStatus: ServerStatus = cached?.status == 'STARTING' ? 'STARTING' : 'OFFLINE';
+            const newStatus: ServerStatus = cached?.status == 'STARTING' ? 'STARTING' : cached?.status == 'SAVING' ? 'SAVING' : cached?.status == 'STOPPING' ? 'STOPPING' : 'OFFLINE';
 
             newServerStatus.status = newStatus;
-            newServerStatus.stoppingTimestamp = null;
             newServerStatus.inactiveTimestamp = null;
 
             serverCache.set(server.id, newServerStatus);

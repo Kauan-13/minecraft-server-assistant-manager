@@ -1,5 +1,5 @@
 import AppError from '../utils/AppError.js';
-import type { Server, ServerDTO } from '../types/server.js';
+import type { Server, ServerDTO, ServerStatus } from '../types/server.js';
 import { sendMessage } from './discordService.js';
 import { serverCache } from './queryService.js';
 import { startJarServer, startWindowsServer } from './processService.js';
@@ -10,6 +10,7 @@ import path from 'node:path';
 import type { ServerConfig } from '../types/config.js';
 import fs from 'fs';
 import { createBackup } from './backupService.js';
+import { setTimeout } from 'node:timers/promises';
 
 const startServer = async (serverId: number, userName: string) => {
     const server: Server | undefined = serverCache.get(serverId);
@@ -43,8 +44,7 @@ const startServer = async (serverId: number, userName: string) => {
         throw new AppError(`Limite atingido. Servidores ativos: ${serverNames}`, 409);
     }
 
-    server.status = 'STARTING';
-    serverCache.set(serverId, server);
+    updateServerStatus(server, 'STARTING');
     
     const startup = serverConfig.startup ?? {
         execType: 'jar',
@@ -142,13 +142,7 @@ const stopServer = async (serverId: number, userName: string) => {
     try {
         await sendCommand(config.servers.find(s => s.id == serverId)!.rconPort, 'stop');
 
-        // console.log("teste");
-
-        // await createBackup(server.path);
-
-        server.status = 'STOPPING';
-        server.stoppingTimestamp = Date.now();
-        serverCache.set(serverId, server);
+        updateServerStatus(server, 'STOPPING');
 
         logger.info('Comando STOP recebido', { 
             serverId: server.id, 
@@ -158,6 +152,13 @@ const stopServer = async (serverId: number, userName: string) => {
 
         sendMessage(`${userName} encerrou o ${server.name}`);
 
+        await setTimeout(5000);
+
+        // updateServerStatus(server, 'SAVING');
+
+        // await createBackup(server.path);
+
+        updateServerStatus(server, 'OFFLINE');
     } catch (err) {
         logger.warn(`Erro ao conectar no RCON. O servidor talvez já esteja offline. ${err}`, {
             context: 'SERVER_CONTROL',
@@ -201,6 +202,11 @@ const getServerBanner = async (serverId: number) => {
 
     return null;
 };
+
+const updateServerStatus = (server: Server, status: ServerStatus) => {
+    server.status = status;
+    serverCache.set(server.id, server);
+}
 
 const toServerDTO = (server: Server): ServerDTO => ({
     id: server.id,
