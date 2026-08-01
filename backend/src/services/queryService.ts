@@ -1,5 +1,5 @@
 import { GameDig } from 'gamedig';
-import type { Player, Server, ServerStatus } from '../types/server.js';
+import type { Player, Server } from '../types/server.js';
 import { stopServer } from './serverServices.js';
 import logger from '../utils/logger.js';
 import { config } from '../config/index.js';
@@ -91,7 +91,7 @@ const startServerMonitor = async () => {
 
         await setTimeout(5000);
     }
-}
+};
 
 startServerMonitor();
 

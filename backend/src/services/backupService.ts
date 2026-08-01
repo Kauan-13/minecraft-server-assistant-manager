@@ -49,7 +49,7 @@ const createBackup = async (serverPath: string, maxBackups: number) => {
 
         throw err;
     }
-}
+};
 
 const rotateBackups = async (backupDir: string, maxBackups: number) => {
     const files = await fs.readdir(backupDir);
@@ -77,6 +77,6 @@ const rotateBackups = async (backupDir: string, maxBackups: number) => {
             console.log(`Backup antigo removido: ${oldest.name}`);
         }
     }
-}
+};
 
-export {createBackup}
+export {createBackup};

@@ -209,7 +209,7 @@ const getServerBanner = async (serverId: number) => {
 const updateServerStatus = (server: Server, status: ServerStatus) => {
     server.status = status;
     serverCache.set(server.id, server);
-}
+};
 
 const toServerDTO = (server: Server): ServerDTO => ({
     id: server.id,
