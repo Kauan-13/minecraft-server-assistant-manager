@@ -4,7 +4,7 @@ import type React from "react"
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogMedia, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog"
 import { Button, type buttonVariantTypes } from "../ui/button"
 import { Spinner } from "@/components/ui/spinner"
-import { Power, PowerOff } from "lucide-react"
+import { Package, Power, PowerOff } from "lucide-react"
 
 type Props = {
     disabled: boolean
@@ -43,6 +43,13 @@ const getStatusButtonMap = (disabled: boolean): Record<ServerStatus, React.React
             Fechando Servidor
         </Button>
     ),
+
+    SAVING: (
+        <Button variant="secondary" disabled>
+            <Package className="w-5 h-5 text-amber-500 animate-bounce [animation-duration:1.6s]"/>
+            Salvando Backup
+        </Button>
+    )
 })
 
 const ServerStateButton = ({ disabled, status, name, onClickStart, onClickStop }: Props) => {

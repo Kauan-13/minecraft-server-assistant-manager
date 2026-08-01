@@ -44,9 +44,15 @@ O arquivo `config.json` define como a aplicação deve se comportar.
 | :--- | :--- | :--- |
 | `maxConcurrentServers` | `Integer` | Limite de servidores que podem rodar simultaneamente. |
 | `enableDiscord` | `Boolean` | Ativa/Desativa a integração com o Discord. |
-| `servers` | `Array` | Lista contendo `id`, `name`, `path`, `port`, `rconPort` e `startup`. |
+| `servers` | `Array` | Lista contendo `id`, `name`, `path`, `port`, `rconPort`, `maxBackups` e `startup`. |
 | `security.enableIpWhitelist` | `Boolean` | Ativa/Desativa a verificação de IP dos usuários. |
 | `security.requireToken` | `Boolean` | Exige o header `x-api-token` nas requisições. |
+
+#### Configurações de Backup (`servers[].maxBackups`)
+Dentro de cada servidor na lista `servers`, você pode customizar a quantidade máxima de backups que serão salvos. O script compacta o diretório `world` localizado na raiz do servidor e o envia para a pasta `backups` (também criada na raiz do servidor). Caso a quantidade de backups ultrapasse o limite configurado em `maxBackups`, os backups mais antigos serão deletados automaticamente.
+
+> [!NOTE]
+> O campo `maxBackups` é **opcional**. Caso não seja configurado ou receba um valor menor que 1, a aplicação não realizará backups.
 
 #### Configurações de Inicialização (`servers[].startup`)
 Dentro de cada servidor na lista `servers`, você pode customizar o comportamento de inicialização através do objeto `startup`:
