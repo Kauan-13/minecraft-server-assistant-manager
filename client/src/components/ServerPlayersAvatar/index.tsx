@@ -3,8 +3,7 @@ import { Tooltip, TooltipContent, TooltipTrigger, } from "@/components/ui/toolti
 
 import type { Player } from "../../types/Server"
 import { useMemo } from "react"
-
-const apiUrl = import.meta.env.VITE_API_URL;
+import { apiUrl } from "@/api/api"
 
 type Props = {
     players?: Player[]
