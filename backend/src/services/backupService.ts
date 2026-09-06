@@ -9,9 +9,9 @@ interface BackupFile {
     mtime: number;
 }
 
-const createBackup = async (serverPath: string, maxBackups: number) => {
+const createBackup = async (serverPath: string, maxBackups: number, backupPath?: string) => {
     try {
-        const backupDir = path.join(serverPath,'backups');
+        const backupDir = backupPath || path.join(serverPath, 'backups');
         const sourceDir = path.join(serverPath,'world');
 
         await fs.ensureDir(backupDir);
@@ -74,7 +74,10 @@ const rotateBackups = async (backupDir: string, maxBackups: number) => {
         const oldest = backupFiles.shift();
         if (oldest) {
             await fs.remove(oldest.path);
-            console.log(`Backup antigo removido: ${oldest.name}`);
+            logger.info('Backup antigo removido', {
+                context: 'BACKUP',
+                fileName: oldest.name
+            });
         }
     }
 };
