@@ -44,15 +44,18 @@ O arquivo `config.json` define como a aplicação deve se comportar.
 | :--- | :--- | :--- |
 | `maxConcurrentServers` | `Integer` | Limite de servidores que podem rodar simultaneamente. |
 | `enableDiscord` | `Boolean` | Ativa/Desativa a integração com o Discord. |
-| `servers` | `Array` | Lista contendo `id`, `name`, `path`, `port`, `rconPort`, `maxBackups` e `startup`. |
+| `servers` | `Array` | Lista de servidores com `id`, `name`, `path`, `port`, `rconPort`, `backup` e `startup`. |
 | `security.enableIpWhitelist` | `Boolean` | Ativa/Desativa a verificação de IP dos usuários. |
 | `security.requireToken` | `Boolean` | Exige o header `x-api-token` nas requisições. |
 
-#### Configurações de Backup (`servers[].maxBackups`)
-Dentro de cada servidor na lista `servers`, você pode customizar a quantidade máxima de backups que serão salvos. O script compacta o diretório `world` localizado na raiz do servidor e o envia para a pasta `backups` (também criada na raiz do servidor). Caso a quantidade de backups ultrapasse o limite configurado em `maxBackups`, os backups mais antigos serão deletados automaticamente.
+#### Configurações de Backup (`servers[].backup`)
+Dentro de cada objeto de servidor na lista `servers`, você pode incluir um objeto opcional `backup` para configurar o limite de retenção e o destino dos arquivos:
+
+* **Destino (`backupPath`):** O script compacta o diretório `world` do servidor e o salva no caminho informado. Caso `backupPath` não seja informado ou seja uma string vazia, o valor padrão será a pasta `backups` na raiz do servidor (`<path>/backups`).
+* **Retenção automática (`maxBackups`):** Define a quantidade máxima de backups mantidos no diretório. Quando o número de arquivos ultrapassa esse limite, o backup mais antigo é excluído automaticamente.
 
 > [!NOTE]
-> O campo `maxBackups` é **opcional**. Caso não seja configurado ou receba um valor menor que 1, a aplicação não realizará backups.
+> O objeto `backup` é inteiramente **opcional**. Se o campo `backup` for omitido ou `maxBackups` for menor que 1, a aplicação não realizará rotinas de backup para aquele servidor.
 
 #### Configurações de Inicialização (`servers[].startup`)
 Dentro de cada servidor na lista `servers`, você pode customizar o comportamento de inicialização através do objeto `startup`:
