@@ -5,7 +5,7 @@ interface ServerConfig {
     port: number;
     rconPort: number;
     startup: StartupConfig;
-    maxBackups: number
+    backup: BackupConfig;
 }
 
 interface StartupConfig {
@@ -37,6 +37,11 @@ interface AppConfig {
     integrations: IntegrationsConfig;
     servers: ServerConfig[];
     security: SecurityConfig;
+}
+
+interface BackupConfig {
+    maxBackups: number;
+    backupPath: string;
 }
 
 export type { AppConfig, AllowedUser, ServerConfig };

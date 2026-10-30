@@ -10,7 +10,10 @@
             "path": "C:/MinecraftServer/",
             "port": 25565,
             "rconPort": 25575,
-            "maxBackups": 3,
+            "backup": {
+                "maxBackups": 3,
+                "backupPath": "C:/Backups Mine"
+            },
             "startup": {
                 "execType": "jar",
                 "targetFile": "server.jar",

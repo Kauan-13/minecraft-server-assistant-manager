@@ -99,8 +99,10 @@ const startServer = async (serverId: number, userName: string) => {
 
 const stopServer = async (serverId: number, userName: string) => {
     const server = serverCache.get(serverId);
+    
+    const serverConfig: ServerConfig | undefined = config.servers.find(server => server.id === serverId);
 
-    if (!server) {
+    if (!server || !serverConfig) {
         logger.warn('Tentativa de stop em servidor inexistente', {
             context: 'SERVER_CONTROL',
             attemptedId: serverId, 
@@ -154,9 +156,9 @@ const stopServer = async (serverId: number, userName: string) => {
 
         await setTimeout(5000);
 
-        if (config.servers.find(s => s.id == serverId)!.maxBackups && config.servers.find(s => s.id == serverId)!.maxBackups > 0) {
+        if (serverConfig && serverConfig.backup && serverConfig.backup.maxBackups && serverConfig.backup.maxBackups > 0) {
             updateServerStatus(server, 'SAVING');
-            await createBackup(server.path, config.servers.find(s => s.id == serverId)!.maxBackups);
+            await createBackup(server.path, serverConfig.backup.maxBackups, serverConfig.backup.backupPath);
             updateServerStatus(server, 'OFFLINE');
         } else {
             updateServerStatus(server, 'OFFLINE');

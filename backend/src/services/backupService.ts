@@ -1,6 +1,6 @@
-import fs  from 'fs-extra';
+import fs from 'fs-extra';
 import path from 'path';
-import AdmZip from 'adm-zip';
+import { ZipArchive } from "archiver";
 import logger from '../utils/logger.js';
 
 interface BackupFile {
@@ -9,10 +9,10 @@ interface BackupFile {
     mtime: number;
 }
 
-const createBackup = async (serverPath: string, maxBackups: number) => {
+const createBackup = async (serverPath: string, maxBackups: number, backupPath?: string) => {
     try {
-        const backupDir = path.join(serverPath,'backups');
-        const sourceDir = path.join(serverPath,'world');
+        const backupDir = backupPath || path.join(serverPath, 'backups');
+        const sourceDir = path.join(serverPath, 'world');
 
         await fs.ensureDir(backupDir);
 
@@ -24,18 +24,32 @@ const createBackup = async (serverPath: string, maxBackups: number) => {
 
         logger.info('Criando backup', {
             context: 'BACKUP',
-            backupPath: path.join(backupDir, fileName)
+            backupPath: outputPath
         });
         
-        const zip = new AdmZip();
+        await new Promise<void>((resolve, reject) => {
+            const output = fs.createWriteStream(outputPath);
+            const archive = new ZipArchive({
+                zlib: { level: 9 }
+            });
 
-        zip.addLocalFolder(sourceDir, '');
+            output.on('close', () => {
+                resolve();
+            });
 
-        await zip.writeZipPromise(outputPath);
+            output.on('error', reject);
+            archive.on('error', reject);
+
+            archive.pipe(output);
+
+            archive.directory(sourceDir, false);
+
+            archive.finalize();
+        });
         
         logger.info('Backup criado com sucesso', {
             context: 'BACKUP',
-            backupPath: path.join(backupDir, fileName)
+            backupPath: outputPath
         });
 
         await rotateBackups(backupDir, maxBackups);
@@ -74,9 +88,12 @@ const rotateBackups = async (backupDir: string, maxBackups: number) => {
         const oldest = backupFiles.shift();
         if (oldest) {
             await fs.remove(oldest.path);
-            console.log(`Backup antigo removido: ${oldest.name}`);
+            logger.info('Backup antigo removido', {
+                context: 'BACKUP',
+                fileName: oldest.name
+            });
         }
     }
 };
 
-export {createBackup};
+export { createBackup };
