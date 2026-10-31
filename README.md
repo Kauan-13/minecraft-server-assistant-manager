@@ -51,8 +51,13 @@ O arquivo `config.json` define como a aplicação deve se comportar.
 #### Configurações de Backup (`servers[].backup`)
 Dentro de cada objeto de servidor na lista `servers`, você pode incluir um objeto opcional `backup` para configurar o limite de retenção e o destino dos arquivos:
 
-* **Destino (`backupPath`):** O script compacta o diretório `world` do servidor e o salva no caminho informado. Caso `backupPath` não seja informado ou seja uma string vazia, o valor padrão será a pasta `backups` na raiz do servidor (`<path>/backups`).
-* **Retenção automática (`maxBackups`):** Define a quantidade máxima de backups mantidos no diretório. Quando o número de arquivos ultrapassa esse limite, o backup mais antigo é excluído automaticamente.
+- **Destino (`backupPath`):** O script compacta o diretório `world` do servidor e o salva no caminho informado. Caso `backupPath` não seja informado ou seja uma string vazia, o valor padrão será a pasta `backups` na raiz do servidor (`<path>/backups`).
+- **Retenção automática (`maxBackups`):** Define a quantidade máxima de backups mantidos no diretório. Quando o número de arquivos ultrapassa esse limite, o backup mais antigo é excluído automaticamente.
+- **Backups no Google Drive (`uploadToGoogleDrive`):** Valor Booleano que determina se os backups devem ser enviados ao Google Drive.
+- **Id da pasta do Google Drive (`driveFolderId`):** Informa para qual pasta os backups devem ser enviados.
+
+> [!NOTE]
+> Para o passo a passo completo de integração e criação das credenciais OAuth2 no Google Cloud, consulte o guia de [Configuração do Google Drive](docs/google-drive-backup.md).
 
 > [!NOTE]
 > O objeto `backup` é inteiramente **opcional**. Se o campo `backup` for omitido ou `maxBackups` for menor que 1, a aplicação não realizará rotinas de backup para aquele servidor.
@@ -153,6 +158,12 @@ Para encerrar a aplicação com segurança:
 
 > [!IMPORTANT]
 > Encerrar o **MSAM** não interrompe a execução dos servidores de Minecraft que estiverem online. Para desligá-los, utilize a interface do frontend ou os comandos internos do jogo antes de fechar a aplicação.
+
+### 5. Recursos Avançados
+
+#### Salvar Backups no Google Drive:
+
+Para garantir maior segurança aos mundos salvos sincronizando os arquivos .zip diretamente na sua conta do Google Drive, siga o tutorial completo em: [Configuração do Google Drive](docs/google-drive-backup.md).
 
 ## Limitações
 - **Conectividade:** Projetado para uso em redes VPN como `Radmin VPN`.
