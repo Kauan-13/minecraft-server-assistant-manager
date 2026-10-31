@@ -1,4 +1,4 @@
-type ServerStatus = 'OFFLINE' | 'STARTING' | 'ONLINE' | 'STOPPING' | 'SAVING';
+type ServerStatus = 'OFFLINE' | 'STARTING' | 'ONLINE' | 'STOPPING' | 'SAVING' | 'UPLOADING';
 
 interface Player {
     name: string,

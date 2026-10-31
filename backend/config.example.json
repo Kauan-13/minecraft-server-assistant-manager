@@ -12,7 +12,9 @@
             "rconPort": 25575,
             "backup": {
                 "maxBackups": 3,
-                "backupPath": "C:/Backups Mine"
+                "backupPath": "C:/Backups Mine",
+                "uploadToGoogleDrive": true,
+                "driveFolderId": "xxxxxxxxxxxxxxxxxxx"
             },
             "startup": {
                 "execType": "jar",

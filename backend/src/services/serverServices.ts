@@ -11,6 +11,7 @@ import type { ServerConfig } from '../types/config.js';
 import fs from 'fs';
 import { createBackup } from './backupService.js';
 import { setTimeout } from 'node:timers/promises';
+import { uploadBackupToDrive } from './googleDriveService.js';
 
 const startServer = async (serverId: number, userName: string) => {
     const server: Server | undefined = serverCache.get(serverId);
@@ -158,7 +159,27 @@ const stopServer = async (serverId: number, userName: string) => {
 
         if (serverConfig && serverConfig.backup && serverConfig.backup.maxBackups && serverConfig.backup.maxBackups > 0) {
             updateServerStatus(server, 'SAVING');
-            await createBackup(server.path, serverConfig.backup.maxBackups, serverConfig.backup.backupPath);
+            const { outputPath, fileName } = await createBackup(
+                server.path, 
+                serverConfig.backup.maxBackups, 
+                serverConfig.backup.backupPath
+            );
+            if (serverConfig.backup.uploadToGoogleDrive && serverConfig.backup.driveFolderId) {
+                updateServerStatus(server, 'UPLOADING');
+                try {
+                    await uploadBackupToDrive(
+                        outputPath, 
+                        fileName, 
+                        serverConfig.backup.maxBackups, 
+                        serverConfig.backup.driveFolderId
+                    );
+                } catch (driveErr) {
+                    logger.error('Falha no upload para o Drive', {
+                        context: 'SERVER_CONTROL',
+                        error: driveErr
+                    });
+                }
+            }
             updateServerStatus(server, 'OFFLINE');
         } else {
             updateServerStatus(server, 'OFFLINE');

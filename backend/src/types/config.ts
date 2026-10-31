@@ -42,6 +42,8 @@ interface AppConfig {
 interface BackupConfig {
     maxBackups: number;
     backupPath: string;
+    uploadToGoogleDrive: boolean;
+    driveFolderId: string;
 }
 
 export type { AppConfig, AllowedUser, ServerConfig };

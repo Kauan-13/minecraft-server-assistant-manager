@@ -25,7 +25,12 @@ type Props = {
 }
 
 const badgeColorMap: Record<ServerStatus, BadgeVariant> = {
-    OFFLINE: 'secondary', STARTING: 'yellow', SAVING: 'yellow', STOPPING: 'red', ONLINE: 'green'
+    OFFLINE: 'secondary', 
+    STARTING: 'yellow', 
+    SAVING: 'yellow', 
+    STOPPING: 'red', 
+    ONLINE: 'green', 
+    UPLOADING: "yellow"
 }
 
 const ServerCard = ({ bannerPath, serverName, serverStatus, serverPlayers, onClickStart, onClickStop, error }: Props) => {

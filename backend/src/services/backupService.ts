@@ -1,6 +1,6 @@
 import fs from 'fs-extra';
 import path from 'path';
-import { ZipArchive } from "archiver";
+import { ZipArchive } from 'archiver';
 import logger from '../utils/logger.js';
 
 interface BackupFile {
@@ -53,6 +53,8 @@ const createBackup = async (serverPath: string, maxBackups: number, backupPath?:
         });
 
         await rotateBackups(backupDir, maxBackups);
+
+        return { outputPath, fileName };
     } catch (err) {
         logger.warn('Erro ao criar backup do servidor.', {
             context: 'BACKUP',
