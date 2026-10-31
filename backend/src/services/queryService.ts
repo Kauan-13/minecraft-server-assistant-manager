@@ -76,7 +76,8 @@ const startServerMonitor = async () => {
                 if (
                     current?.status === 'STARTING' ||
                     current?.status === 'STOPPING' ||
-                    current?.status === 'SAVING'
+                    current?.status === 'SAVING' ||
+                    current?.status === 'UPLOADING'
                 ) {
                     continue;
                 }

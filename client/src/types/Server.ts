@@ -4,7 +4,7 @@ type ApiError = null | {
     serverName: string,
 }
 
-type ServerStatus = "OFFLINE" | "STARTING" | "ONLINE" | "STOPPING" | "SAVING";
+type ServerStatus = "OFFLINE" | "STARTING" | "ONLINE" | "STOPPING" | "SAVING" | "UPLOADING";
 
 type Player = {
     name: string,

@@ -4,7 +4,7 @@ import type React from "react"
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogMedia, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog"
 import { Button, type buttonVariantTypes } from "../ui/button"
 import { Spinner } from "@/components/ui/spinner"
-import { Package, Power, PowerOff } from "lucide-react"
+import { CloudUpload, Package, Power, PowerOff } from "lucide-react"
 
 type Props = {
     disabled: boolean
@@ -46,8 +46,14 @@ const getStatusButtonMap = (disabled: boolean): Record<ServerStatus, React.React
 
     SAVING: (
         <Button variant="secondary" disabled>
-            <Package className="w-5 h-5 text-amber-500 animate-bounce [animation-duration:1.6s]"/>
+            <Package className="w-5 h-5 text-amber-500 animate-bounce [animation-duration:1.6s]" />
             Salvando Backup
+        </Button>
+    ),
+    UPLOADING: (
+        <Button variant="secondary" disabled>
+            <CloudUpload className="w-5 h-5 text-amber-500 animate-bounce [animation-duration:1.6s]" />
+            Salvando Backup Na Nuvem
         </Button>
     )
 })

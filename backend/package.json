@@ -9,7 +9,8 @@
     "dev": "tsx watch src/app.ts",
     "start": "node ./dist/app.js",
     "lint": "eslint . --ext .ts",
-    "lint:fix": "eslint . --ext .ts --fix"
+    "lint:fix": "eslint . --ext .ts --fix",
+    "drive:auth": "ts-node scripts/setupGoogleDrive.ts"
   },
   "repository": {
     "type": "git",
@@ -35,6 +36,7 @@
     "express": "^5.2.1",
     "fs-extra": "^11.4.0",
     "gamedig": "^5.3.2",
+    "googleapis": "^188.0.0",
     "rcon-client": "^4.2.5",
     "winston": "^3.19.0"
   },
